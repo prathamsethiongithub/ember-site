@@ -136,8 +136,8 @@ code { font-family: var(--mono); font-size: 0.85em; color: var(--ember); }
 
 .brand { display: inline-flex; align-items: baseline; gap: 0.55rem; }
 .brand .brand-logo { align-self: center; }
-.brand-logo { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(255, 140, 40, 0.35)); } /* 1:1 */
-.brand-footer .brand-logo { width: 56px; height: 56px; filter: drop-shadow(0 0 12px rgba(255, 140, 40, 0.3)); }
+.brand-logo { width: auto; height: 30px; filter: drop-shadow(0 0 12px rgba(255, 140, 40, 0.35)); }
+.brand-footer .brand-logo { width: auto; height: 64px; align-self: baseline; margin-bottom: -4px; filter: drop-shadow(0 0 12px rgba(255, 140, 40, 0.3)); }
 
 .wordmark {
   font-family: var(--serif);
