@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#2a2a2a}</style></head>
+<body>
+<script src="vendor/three.min.js"></script>
+<script src="assets/skin-data.js"></script>
+<script src="skinchar.js"></script>
+<script>
+var r = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+r.setSize(900,500); r.setClearColor(0x2a2a2a); document.body.appendChild(r.domElement);
+var s = new THREE.Scene();
+// EXACTLY the site's config: scale 2.2 + arm rotations
+var SC = window.buildSkinCharacter();
+SC.root.scale.set(2.2,2.2,2.2);
+SC.groups.armR.rotation.z = -0.22;
+SC.groups.armL.rotation.z = 0.22;
+s.add(SC.root);
+s.add(new THREE.AmbientLight(0xffffff, 0.85));
+var d = new THREE.DirectionalLight(0xffffff, 0.8); d.position.set(2,3,4); s.add(d);
+// left: site config | right: same but no arm rotation (control)
+var SC2 = window.buildSkinCharacter();
+SC2.root.scale.set(2.2,2.2,2.2);
+SC2.root.position.x = 3.4;
+s.add(SC2);
+var cam = new THREE.PerspectiveCamera(30, 900/500, 0.1, 50);
+cam.position.set(1.7, 2.2, 8.5); cam.lookAt(1.7, 1.6, 0);
+SC.ready.then(function(){ render(); window.__done=1; });
+function render(){ r.render(s, cam); }
+render();
+</script>
+</body></html>

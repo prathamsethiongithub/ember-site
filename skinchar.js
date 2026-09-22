@@ -107,9 +107,15 @@
 
     ["armR", "armL"].forEach(function (k) {
       var side = k === "armR" ? 1 : -1;
-      groups[k].position.set(side * 0.375, 1.125, 0);
-      groups[k].add(faceBox(RECTS[k], DIMS[k], skinMat, 1));
-      groups[k].add(faceBox(RECTS[k + "Jack"], DIMS[k], overMat, 1.08));
+      // PIVOT AT THE SHOULDER (top of the arm) — rotating the group then swings
+      // the arm naturally instead of detaching it (the rotate-around-center bug)
+      groups[k].position.set(side * 0.375, 1.5, 0);
+      var armBase = faceBox(RECTS[k], DIMS[k], skinMat, 1);
+      armBase.position.y = -0.375;
+      groups[k].add(armBase);
+      var armJack = faceBox(RECTS[k + "Jack"], DIMS[k], overMat, 1.08);
+      armJack.position.y = -0.375;
+      groups[k].add(armJack);
     });
 
     ["legR", "legL"].forEach(function (k) {

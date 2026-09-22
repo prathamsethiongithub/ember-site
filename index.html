@@ -6,7 +6,7 @@
   <title>ember — a minecraft launcher. built differently.</title>
   <meta name="description" content="ember is a minecraft launcher built differently: a crash oracle, a character who watches you, and mods that just work. masters' union smp." />
   <link rel="canonical" href="https://prathamsethiongithub.github.io/ember-site/" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/brand/logo-full.png" type="image/png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +15,13 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- the intro: the launcher's own splash video, for the web -->
+  <div class="intro-veil" id="introVeil" aria-hidden="true">
+    <video id="introVid" muted playsinline autoplay preload="auto">
+      <source src="assets/brand/intro.mp4" type="video/mp4" />
+    </video>
+  </div>
 
   <!-- ============================================================
        ember — the island. full rebuild.
@@ -27,7 +34,7 @@
     <img class="hero-fallback" src="assets/hero-fallback.png" alt="" aria-hidden="true" />
 
     <header class="topbar">
-      <span class="wordmark">ember</span>
+      <a class="brand" href="#hero"><img class="brand-logo" src="assets/brand/logo-full.png" alt="ember logo" /><span class="wordmark">ember</span></a>
       <nav class="topnav">
         <a href="#oracle">the oracle</a>
         <a href="#character">the character</a>
@@ -195,8 +202,11 @@ verdict: <span class="t-ok">named with certainty</span>
 
   <footer class="footer">
     <div class="wrap footer-in">
-      <span class="wordmark">ember.</span>
+      <a class="brand brand-footer" href="#hero"><img class="brand-logo" src="assets/brand/logo-full.png" alt="ember logo" /><span class="wordmark">ember.</span></a>
       <span class="footer-burn">still burning.</span>
+      <video class="footer-fire" muted playsinline loop autoplay preload="metadata" aria-hidden="true">
+        <source src="assets/brand/intro.mp4" type="video/mp4" />
+      </video>
       <nav class="footer-links">
         <a href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">github</a>
         <a href="#">discord</a>

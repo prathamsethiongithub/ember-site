@@ -66,6 +66,17 @@ regions (head/body/arms/legs × 6 faces each), **including the overlay layer**
   build the fallback image and to verify UV mapping on a plain background
 - to re-skin: replace `assets/skin-data.js` (or pass `textureUrl` to the builder)
 
+## brand assets (the real ones)
+
+- `assets/brand/logo-full.png` — the amber ribbon-S mark (transparent) — topbar, footer, favicon
+- `assets/brand/intro.mp4` — **the launcher's own splash video**, now the site's intro veil
+  (plays once per session, lifts on end / click / scroll / 3.4s; skipped entirely under reduced motion)
+  note: it carries a small `seedance.io` watermark baked into the video itself
+- `assets/brand/logo-reveal.mp4` — the lighting reveal, held in reserve
+- `assets/brand/*.svg` — **the launcher's cursor set**, wired as the site's cursors:
+  main → default, hand → links/buttons, type → text (viewBox + 32px added for CSS use)
+- `test-skin.html` · `render-character-fallback.html` · `viewer.html` — isolated asset/skin test pages
+
 ## known gaps (honest)
 
 - no bloom post-processing (r128 UMD has no EffectComposer) — the ember halos are sprite-based instead

@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#0b0a0e;color:#eee;font-family:sans-serif;padding:24px}
+.row{display:flex;gap:40px;align-items:center;margin-bottom:28px}
+.dark{background:#08070a;padding:16px}
+.light{background:#e8e4dc;padding:16px}
+img.logo{height:160px}
+img.cur{height:48px}
+video{height:180px;border-radius:8px}
+h3{font-size:13px;letter-spacing:2px;color:#888;text-transform:uppercase}
+</style></head><body>
+<div class="row"><div><h3>logo-white.png on dark</h3><div class="dark"><img class="logo" src="assets/brand/logo-white.png"></div></div>
+<div><h3>logo-full.png on dark</h3><div class="dark"><img class="logo" src="assets/brand/logo-full.png"></div></div></div>
+<div class="row"><div><h3>cursors on dark</h3><div class="dark">
+<img class="cur" src="assets/brand/main.svg"><img class="cur" src="assets/brand/hand cursor.svg"><img class="cur" src="assets/brand/type.svg"><img class="cur" src="assets/brand/hourglass.svg">
+</div></div><div><h3>cursors on light</h3><div class="light">
+<img class="cur" src="assets/brand/main.svg"><img class="cur" src="assets/brand/hand cursor.svg"><img class="cur" src="assets/brand/type.svg"><img class="cur" src="assets/brand/hourglass.svg">
+</div></div></div>
+<div class="row"><div><h3>logo reveal video @2s</h3><video id="v1" muted playsinline><source src="assets/brand/logo-reveal.mp4"></video></div>
+<div><h3>intro video @2s</h3><video id="v2" muted playsinline><source src="assets/brand/intro.mp4"></video></div></div>
+<script>
+var v1=document.getElementById('v1'), v2=document.getElementById('v2');
+v1.currentTime=2; v2.currentTime=2;
+v1.onloadeddata=function(){ v1.currentTime=2; };
+v2.onloadeddata=function(){ v2.currentTime=2; };
+</script>
+</body></html>
