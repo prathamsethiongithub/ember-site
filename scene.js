@@ -87,27 +87,8 @@
         if (d <= 3 && rand() > 0.18) pushBlock(TX + lx, 4 + ly, TZ + lz, "leaf", 0.7 + rand() * 0.2);
       }
 
-  /* ---------- the character rig (proven proportions, 42 cubes) ---------- */
-  var U = 1 / 16;
-  var PALETTE = {
-    skin: 0xc9a077, hair: 0x3a342e, shirt: 0x4f8c8c, shirtDark: 0x407575,
-    pants: 0x596084, shoes: 0x4a463f, eye: 0x2a2420,
-  };
-  var CUBES = [];
-  function addCube(px, py, pz, sx, sy, sz, color, group) {
-    CUBES.push({ px: px, py: py, pz: pz, sx: sx, sy: sy, sz: sz, color: color, group: group });
-  }
-  for (var tx = 0; tx < 2; tx++) for (var tyy = 0; tyy < 3; tyy++) for (var tz = 0; tz < 2; tz++)
-    addCube(-4 + tx * 4 + 2, 12 + tyy * 4 + 2, -2 + tz * 2 + 1, 4, 4, 2, PALETTE.shirt, "torso");
-  [-6.25, 6.25].forEach(function (ax) { for (var ay = 0; ay < 3; ay++) addCube(ax, 12 + ay * 4 + 2, 0, 4, 4, 4, PALETTE.shirtDark, "arm"); });
-  [-2.25, 2.25].forEach(function (lx2) { for (var ly2 = 0; ly2 < 3; ly2++) addCube(lx2, ly2 * 4 + 2, 0, 4, 4, 4, ly2 === 0 ? PALETTE.shoes : PALETTE.pants, "leg"); });
-  for (var hx = 0; hx < 2; hx++) for (var hy = 0; hy < 2; hy++) for (var hz = 0; hz < 2; hz++)
-    addCube(-4 + hx * 4 + 2, 24 + hy * 4 + 2, -4 + hz * 4 + 2, 4, 4, 4, PALETTE.skin, "head");
-  for (var wx = 0; wx < 2; wx++) for (var wy = 0; wy < 2; wy++) for (var wz = 0; wz < 2; wz++) {
-    if (wz === 1 && wy === 0) continue;
-    addCube(-4.2 + wx * 4.2 + 2.1, 23.8 + wy * 4.2 + 2.1, -4.2 + wz * 4.2 + 2.1, 4.2, 4.2, 4.6, PALETTE.hair, "head");
-  }
-  [-2, 2].forEach(function (ex) { addCube(ex, 26, 4.6, 2.5, 2.5, 1.6, PALETTE.eye, "head"); });
+  /* ---------- the character: his REAL skin, the launcher's own mechanic ---------- */
+  /* built by skinchar.js — proper per-face UVs + overlay layer. */
 
   /* ---------- boot ---------- */
   var renderer, scene, camera, groups = {}, meshes = [], embers = null, emberData = [];
@@ -196,22 +177,12 @@
       blockGroups[kind] = im;
     });
 
-    /* ---- the character ---- */
-    ["torso", "arm", "leg", "head"].forEach(function (k) { groups[k] = new THREE.Group(); groups[k].position.x = 1.9; groups[k].scale.set(1.6, 1.6, 1.6); scene.add(groups[k]); });
-    var charMatCache = {};
-    CUBES.forEach(function (c) {
-      if (!charMatCache[c.color]) {
-        charMatCache[c.color] = new THREE.MeshStandardMaterial({ color: c.color, roughness: 0.72, metalness: 0.05 });
-      }
-      var m = new THREE.Mesh(boxGeo, charMatCache[c.color].clone());
-      m.castShadow = true;
-      m.scale.set(c.sx * U, c.sy * U, c.sz * U);
-      m.position.set(c.px * U, c.py * U + 1.02, c.pz * U); // standing on the grass (y=1 top)
-      if (c.group === "head") m.position.y -= 24 * U;
-      groups[c.group].add(m);
-      meshes.push(m);
-    });
-    groups.head.position.set(1.9, 24 * U * 1.6 + 1.02, 0);
+    /* ---- the character: real skin, root offset onto the grass ---- */
+    var SC = window.buildSkinCharacter();
+    var groups = SC.groups;
+    SC.root.position.set(1.9, 1.02, 0);
+    SC.root.scale.set(1.6, 1.6, 1.6);
+    scene.add(SC.root);
 
     /* ---- drifting embers (instanced, looping) ---- */
     var emberMat = new THREE.MeshBasicMaterial({ color: 0xff7a1a });
@@ -328,7 +299,7 @@
       /* character: breathing + cursor gaze */
       var breath = 1 + Math.sin((t / 3) * Math.PI * 2) * 0.015;
       groups.torso.scale.y = breath;
-      groups.arm.scale.y = 1 + (breath - 1) * 0.6;
+      groups.armR.scale.y = groups.armL.scale.y = 1 + (breath - 1) * 0.6;
       if (pointerActive) { yaw += (targetYaw - yaw) * 0.06; pitch += (targetPitch - pitch) * 0.06; }
       groups.head.rotation.y = yaw;
       groups.head.rotation.x = pitch;
@@ -385,7 +356,6 @@
       boxGeo.dispose();
       Object.keys(MATS).forEach(function (k) { MATS[k].dispose(); });
       Object.keys(charMatCache).forEach(function (k) { charMatCache[k].dispose(); });
-      meshes.forEach(function (m) { m.material.dispose(); });
       if (embers) embers.material.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
@@ -393,6 +363,7 @@
     });
   } catch (err) {
     if (host) host.style.display = "none"; // fallback image stays
+    window.__islandErr = String(err && err.stack || err);
     console.warn("[island] unavailable (non-fatal):", err);
   }
 })();

@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#222}</style></head>
+<body>
+<script src="vendor/three.min.js"></script>
+<script src="assets/skin-data.js"></script>
+<script src="skinchar.js"></script>
+<script>
+var r = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+r.setSize(600,600); r.setClearColor(0x333333); document.body.appendChild(r.domElement);
+var s = new THREE.Scene();
+var cam = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
+cam.position.set(0, 1.2, 4.5); cam.lookAt(0, 1.0, 0);
+s.add(new THREE.AmbientLight(0xffffff, 0.9));
+var d = new THREE.DirectionalLight(0xffffff, 0.7); d.position.set(2,3,4); s.add(d);
+var SC = window.buildSkinCharacter();
+s.add(SC.root);
+SC.ready.then(function(ok){ window.__skinLoaded = ok; render(); });
+function render(){ r.render(s, cam); }
+render();
+</script>
+</body></html>

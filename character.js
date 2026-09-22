@@ -13,28 +13,9 @@
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var U = 1 / 16;
-  var PALETTE = {
-    skin: 0xc9a077, hair: 0x3a342e, shirt: 0x4f8c8c, shirtDark: 0x407575,
-    pants: 0x596084, shoes: 0x4a463f, eye: 0x2a2420,
-  };
-  var CUBES = [];
-  function addCube(px, py, pz, sx, sy, sz, color, group) {
-    CUBES.push({ px: px, py: py, pz: pz, sx: sx, sy: sy, sz: sz, color: color, group: group });
-  }
-  for (var tx = 0; tx < 2; tx++) for (var ty = 0; ty < 3; ty++) for (var tz = 0; tz < 2; tz++)
-    addCube(-4 + tx * 4 + 2, 12 + ty * 4 + 2, -2 + tz * 2 + 1, 4, 4, 2, PALETTE.shirt, "torso");
-  [-6.25, 6.25].forEach(function (ax) { for (var ay = 0; ay < 3; ay++) addCube(ax, 12 + ay * 4 + 2, 0, 4, 4, 4, PALETTE.shirtDark, "arm"); });
-  [-2.25, 2.25].forEach(function (lx) { for (var ly = 0; ly < 3; ly++) addCube(lx, ly * 4 + 2, 0, 4, 4, 4, ly === 0 ? PALETTE.shoes : PALETTE.pants, "leg"); });
-  for (var hx = 0; hx < 2; hx++) for (var hy = 0; hy < 2; hy++) for (var hz = 0; hz < 2; hz++)
-    addCube(-4 + hx * 4 + 2, 24 + hy * 4 + 2, -4 + hz * 4 + 2, 4, 4, 4, PALETTE.skin, "head");
-  for (var wx = 0; wx < 2; wx++) for (var wy = 0; wy < 2; wy++) for (var wz = 0; wz < 2; wz++) {
-    if (wz === 1 && wy === 0) continue;
-    addCube(-4.2 + wx * 4.2 + 2.1, 23.8 + wy * 4.2 + 2.1, -4.2 + wz * 4.2 + 2.1, 4.2, 4.2, 4.6, PALETTE.hair, "head");
-  }
-  [-2, 2].forEach(function (ex) { addCube(ex, 26, 4.6, 2.5, 2.5, 1.6, PALETTE.eye, "head"); });
+  /* his real skin — built by skinchar.js (the launcher's own mechanic) */
 
-  var renderer, scene, camera, groups = {}, meshes = [], rafId = null, disposed = false;
+  var renderer, scene, camera, groups = {}, rafId = null, disposed = false;
   var targetYaw = 0, targetPitch = 0, yaw = 0, pitch = 0, timeOrigin = performance.now();
 
   try {
@@ -63,19 +44,10 @@
     scene.add(rim);
     scene.add(new THREE.AmbientLight(0x241d17, 0.4));
 
-    ["torso", "arm", "leg", "head"].forEach(function (k) { groups[k] = new THREE.Group(); scene.add(groups[k]); });
-    var geo = new THREE.BoxGeometry(1, 1, 1);
-    var matCache = {};
-    CUBES.forEach(function (c) {
-      if (!matCache[c.color]) matCache[c.color] = new THREE.MeshStandardMaterial({ color: c.color, roughness: 0.72, metalness: 0.05 });
-      var m = new THREE.Mesh(geo, matCache[c.color].clone());
-      m.scale.set(c.sx * U, c.sy * U, c.sz * U);
-      m.position.set(c.px * U, c.py * U, c.pz * U);
-      if (c.group === "head") m.position.y -= 24 * U;
-      groups[c.group].add(m);
-      meshes.push(m);
-    });
-    groups.head.position.set(0, 24 * U, 0);
+    var SC = window.buildSkinCharacter();
+    var groups = SC.groups;
+    SC.root.position.set(0, 0, 0);
+    scene.add(SC.root);
 
     window.addEventListener("pointermove", function (ev) {
       var r = host.getBoundingClientRect();
@@ -95,7 +67,7 @@
     function frame(t) {
       var breath = 1 + Math.sin((t / 3) * Math.PI * 2) * 0.015;
       groups.torso.scale.y = breath;
-      groups.arm.scale.y = 1 + (breath - 1) * 0.6;
+      groups.armR.scale.y = groups.armL.scale.y = 1 + (breath - 1) * 0.6;
       yaw += (targetYaw - yaw) * 0.06;
       pitch += (targetPitch - pitch) * 0.06;
       groups.head.rotation.y = yaw;
@@ -124,12 +96,12 @@
       ro.disconnect();
       geo.dispose();
       Object.keys(matCache).forEach(function (k) { matCache[k].dispose(); });
-      meshes.forEach(function (m) { m.material.dispose(); });
       renderer.dispose();
       renderer.forceContextLoss();
     });
   } catch (err) {
     if (host) host.style.display = "none";
+    window.__charErr = String(err && err.stack || err);
     console.warn("[character] unavailable (non-fatal):", err);
   }
 })();

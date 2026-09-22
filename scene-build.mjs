@@ -63,17 +63,17 @@ for (const pct of [0, 50, 100]) {
   if (s.result?.data) { writeFileSync(`${OUT}/ember-v2-hero-${pct}.png`, Buffer.from(s.result.data, "base64")); console.log(`hero ${pct}% saved`); }
 }
 
-// CHARACTER: freeze + clip to the stage → character-fallback
+// CHARACTER: full-viewport capture (clip captures of a frozen WebGL canvas
+// come back blank — the viewport composite is the reliable one)
 await send("Runtime.evaluate", { expression: `window.__emberCharacter.freeze()` });
-await sleep(300);
-const rect = await send("Runtime.evaluate", {
-  expression: `(() => { const r = document.querySelector('.character-stage').getBoundingClientRect();
-    return JSON.stringify({x: Math.round(r.x + scrollX), y: Math.round(r.y + scrollY), w: Math.round(r.width), h: Math.round(r.height)}); })()`,
+const cpos = await send("Runtime.evaluate", {
+  expression: `Math.round(document.querySelector('.character-stage').getBoundingClientRect().top + scrollY) - 120`,
   returnByValue: true,
 });
-const r2 = JSON.parse(rect.result.result.value);
-s = await send("Page.captureScreenshot", { format: "png", clip: { x: r2.x, y: r2.y, width: r2.w, height: r2.h, scale: 1 } });
-if (s.result?.data) { writeFileSync(`${ASSETS}/character-fallback.png`, Buffer.from(s.result.data, "base64")); console.log("character-fallback saved", `${r2.w}x${r2.h}`); }
+await send("Runtime.evaluate", { expression: `window.scrollTo(0, ${cpos.result.result.value})` });
+await sleep(900);
+s = await send("Page.captureScreenshot", { format: "png" });
+if (s.result?.data) { writeFileSync(`${ASSETS}/character-fallback.png`, Buffer.from(s.result.data, "base64")); console.log("character-fallback saved (viewport)"); }
 
 // mid-page section shots for the audit
 for (const [name, sel] of [["oracle", "#oracle"], ["app", "#app"], ["receipts", "#receipts"]]) {

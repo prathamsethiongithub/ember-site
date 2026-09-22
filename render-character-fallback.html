@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;width:520px;height:560px;overflow:hidden;
+  background:radial-gradient(80% 60% at 50% 88%, rgba(255,130,40,0.16), transparent 70%), linear-gradient(180deg,#0c0a0f,#08070a);}
+</style></head>
+<body>
+<script src="vendor/three.min.js"></script>
+<script src="assets/skin-data.js"></script>
+<script src="skinchar.js"></script>
+<script>
+var r = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+r.setSize(520,560); r.setClearColor(0x000000,0);
+if (THREE.sRGBEncoding) r.outputEncoding = THREE.sRGBEncoding;
+if (THREE.ACESFilmicToneMapping) { r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.15; }
+document.body.appendChild(r.domElement);
+var s = new THREE.Scene();
+var cam = new THREE.PerspectiveCamera(34, 520/560, 0.1, 50);
+cam.position.set(0, 1.35, 5.4); cam.lookAt(0, 1.05, 0);
+var key = new THREE.PointLight(0xffb259, 3.4, 14, 2); key.position.set(2.2, 3.6, 2.6); s.add(key);
+var fill = new THREE.DirectionalLight(0x2c3d5c, 0.5); fill.position.set(-3,1.4,2); s.add(fill);
+var rim = new THREE.DirectionalLight(0xbfd4e8, 0.7); rim.position.set(-1.4,2.8,-3.4); s.add(rim);
+s.add(new THREE.AmbientLight(0x241d17, 0.4));
+var SC = window.buildSkinCharacter();
+s.add(SC.root);
+SC.ready.then(function(){ r.render(s, cam); window.__done = true; });
+r.render(s, cam);
+</script>
+</body></html>

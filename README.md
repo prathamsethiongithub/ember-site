@@ -51,6 +51,21 @@ cuts made for weight, none visible in the final render: AA off on the island can
 - no WebGL / no JS → build-rendered fallback images (the page never breaks)
 - `file://` works — everything vendored (gsap, scrolltrigger, three r128 UMD)
 
+## the real skin (the launcher's own mechanic)
+
+the character is not flat colours — it's **the actual Minecraft skin**, rendered the
+way the launcher renders it: a proper 64×64 skin texture mapped onto per-face UV
+regions (head/body/arms/legs × 6 faces each), **including the overlay layer**
+(hat / jacket / sleeves / pants).
+
+- `skinchar.js` — the builder: `window.buildSkinCharacter()` → `{ root, groups, ready }`
+- the skin is **gigamegachad's own**, fetched from Mojang and embedded as a data URL
+  in `assets/skin-data.js` (base64) so it renders from `file://` too — an http texture
+  would taint the WebGL canvas there
+- `render-character-fallback.html` + `test-skin.html` — isolated renderers used to
+  build the fallback image and to verify UV mapping on a plain background
+- to re-skin: replace `assets/skin-data.js` (or pass `textureUrl` to the builder)
+
 ## known gaps (honest)
 
 - no bloom post-processing (r128 UMD has no EffectComposer) — the ember halos are sprite-based instead
