@@ -66,6 +66,24 @@ regions (head/body/arms/legs × 6 faces each), **including the overlay layer**
   build the fallback image and to verify UV mapping on a plain background
 - to re-skin: replace `assets/skin-data.js` (or pass `textureUrl` to the builder)
 
+## the hero scene (v3, "the chunk")
+
+`chunk.js` + `scene.js` render ONE 16x16 Minecraft chunk, extracted and
+suspended in the void:
+
+- curated terrain — a back-left rise, his flat clearing, a dug 2x2 pool
+  (water one block below the sand shoulder, self-lit so it reads), two
+  small oaks, a stone outcrop, a cobble-and-plank ruin, a gravel pocket
+- textures: a procedural 16px atlas drawn on a canvas (nearest filter) —
+  grass/sand/dirt/stone/cobble/log/leaves/water/plank
+- ONE merged BufferGeometry, internal faces culled (~2.5k tris, all
+  opaque terrain in a single draw call; water is the second)
+- straight readable cut edges, flat stone underside — it reads as a
+  piece of world physically lifted out, not scattered floating blocks
+- motion is deliberately restrained: a slow idle pan (sin, ~150s period),
+  a whisper of parallax, a gently swaying key light, sparse drifting
+  embers, and a soft two-phase scroll response. no gameplay motion.
+
 ## brand assets (the real ones)
 
 - `assets/brand/logo-full.png` — the amber ribbon-S mark (transparent) — topbar, footer
