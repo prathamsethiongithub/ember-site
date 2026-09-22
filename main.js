@@ -9,26 +9,6 @@
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* the intro veil: plays the splash, lifts on end / click / 3.2s, once */
-  (function () {
-    var veil = document.getElementById("introVeil");
-    var vid = document.getElementById("introVid");
-    if (!veil) return;
-    if (reduce || sessionStorage.getItem("ember-intro-seen")) { veil.parentNode.removeChild(veil); return; }
-    var gone = false;
-    function lift() {
-      if (gone) return; gone = true;
-      sessionStorage.setItem("ember-intro-seen", "1");
-      veil.classList.add("gone");
-      setTimeout(function () { if (veil.parentNode) veil.parentNode.removeChild(veil); }, 800);
-    }
-    try { vid && vid.play(); } catch (e) {}
-    vid && vid.addEventListener("ended", lift);
-    setTimeout(lift, 3400);
-    veil.addEventListener("click", lift);
-    window.addEventListener("wheel", lift, { passive: true, once: true });
-    window.addEventListener("keydown", lift, { once: true });
-  })();
 
   var hasGsap = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
   if (reduce || !hasGsap) return;

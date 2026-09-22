@@ -42,7 +42,7 @@
   try {
     renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power", preserveDrawingBuffer: true });
     if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
-    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95; }
+    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.9; }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(host.clientWidth, host.clientHeight);
     renderer.setClearColor(0x000000, 0);
@@ -59,15 +59,15 @@
     camera.position.set(0.8, 5.2, mobile ? 22.5 : 21.0);
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
-    keyLight = new THREE.PointLight(0xffb259, 3.1, 52, 2);
+    keyLight = new THREE.PointLight(0xffb259, 2.7, 52, 2);
     keyLight.position.set(6, 9, 7);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = keyLight.shadow.mapSize.height = 1024;
     keyLight.shadow.camera.near = 1; keyLight.shadow.camera.far = 50;
     keyLight.shadow.bias = -0.002;
     scene.add(keyLight);
-    himLight = new THREE.PointLight(0xffc07a, 1.0, 11, 2);
-    himLight.position.set(3.8, 4.2, 5.6);
+    himLight = new THREE.PointLight(0xffc07a, 0.5, 14, 2);
+    himLight.position.set(5.6, 6.6, 8.4);   // frontal + high: lights the FACE and both arms, never a hot spot
     scene.add(himLight);
     var fill = new THREE.DirectionalLight(0x2c3d5c, 0.5);
     fill.position.set(-6, 3, 2);
@@ -104,7 +104,7 @@
     /* ---- the character: real skin, on the front clearing ---- */
     var SC = window.buildSkinCharacter();
     groups = SC.groups;
-    SC.root.position.set(2.6, 2.52, 4.6);
+    SC.root.position.set(5.4, 2.52, 5.2);
     SC.root.scale.set(2.4, 2.4, 2.4);
     SC.groups.armR.rotation.z = -0.22;
     SC.groups.armL.rotation.z = 0.22;
@@ -265,7 +265,7 @@
         by += Math.sin(t * 0.03) * 0.25;
       }
       cam.position.set(bx + parallaxX, by + parallaxY, bz);
-      cam.lookAt(-1.4, lookY, 0.5);  // composition: chunk right of center, type clear on the left
+      cam.lookAt(-1.9, lookY, 0.5);  // composition: chunk right of center, type clear on the left
 
       renderer.render(scene, camera);
     }
