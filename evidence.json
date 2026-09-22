@@ -1,16 +1,16 @@
 {
-  "syncedAt": "2026-09-22T10:10:16.066Z",
+  "syncedAt": "2026-09-22T10:11:29.149Z",
   "script": "scripts/sync-evidence.mjs",
   "repo": "C:/Users/fortn/Desktop/check this ai agents this desktop folder is for you outside of this are my games/mu-launcher",
   "branch": "identity-overflow-fix",
   "commit": "3105ac1",
   "checks": {
-    "value": 267,
-    "source": "vitest full suite, green"
+    "value": null,
+    "source": "absent"
   },
   "oracleCorpus": {
-    "passed": true,
-    "namedCrashes": 1
+    "passed": false,
+    "namedCrashes": null
   },
   "rule": "no hardcoded numbers; honest absence beats stale data"
 }

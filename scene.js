@@ -88,7 +88,11 @@
        with the real block textures extracted from the actual 1.21.11 client
        jar. 50x50x14 blocks of the world, face-culled, lights included. */
     var stagePoint = new THREE.Vector3(0, 4.55, 5);
-    (function loadWorld() {
+    if (location.protocol === "file:") {
+      /* browsers block XHR of the .glb from file:// — show the fallback render
+         (the same real world, pre-rendered) instead of a failed request */
+      if (host) host.style.display = "none";
+    } else (function loadWorld() {
       new THREE.GLTFLoader().load("assets/hive.glb", function (g) {
         var root = g.scene;
         root.scale.set(0.6, 0.6, 0.6);
