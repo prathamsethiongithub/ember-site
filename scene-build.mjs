@@ -59,15 +59,17 @@ const hasScene = await send("Runtime.evaluate", {
 });
 console.log("scene check:", hasScene.result?.result?.value);
 
-// pin range at 800px viewport: start 800, end 800+680
-const PIN_START = 800, PIN_SPAN = 680;
+// pin area visible, then DETERMINISTIC progress: freeze the RAF and drive the
+// exact stage — scroll timing races made earlier captures lie about their labels.
+await send("Runtime.evaluate", { expression: `window.scrollTo(0, 1440)` });
+await sleep(600);
+await send("Runtime.evaluate", { expression: `window.__emberScene.freeze()` });
 for (const pct of [25, 50, 75, 100]) {
-  const y = Math.round(PIN_START + PIN_SPAN * (pct / 100)) - 40;
-  await send("Runtime.evaluate", { expression: `window.scrollTo(0, ${y})` });
-  await sleep(900);
+  await send("Runtime.evaluate", { expression: `window.__emberScene.setProgress(${pct / 100})` });
+  await sleep(400);
   const s = await send("Page.captureScreenshot", { format: "png" });
   if (s.result?.data) writeFileSync(`${OUT}/ember-3d-${pct}.png`, Buffer.from(s.result.data, "base64"));
-  console.log(`formation ${pct}% saved (scroll ${y})`);
+  console.log(`formation ${pct}% saved (progress ${pct / 100})`);
 }
 
 // fallback: fully formed, frozen, clipped to the frame

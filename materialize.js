@@ -224,6 +224,7 @@
     window.__emberScene = {
       setProgress: function (p) { setProgress(p); },
       freeze: function () { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } },
+      resume: function () { if (rafId === null && !disposed) { timeOrigin = performance.now(); loop(); } },
       debug: function () {
         return cubes.map(function (m) {
           var v = new THREE.Vector3();
@@ -251,7 +252,7 @@
         // near-black so ONLY the emission carries (aces desaturates saturated
         // emissives — dark albedo is what makes an ember read as an ember).
         var heat = 1 - local * local;
-        m.material.emissiveIntensity = 1.5 * heat;
+        m.material.emissiveIntensity = 0.85 * heat; // below the aces knee — above it, orange compresses to pale peach
         m.material.color.copy(u.baseColor).lerp(u.darkColor, heat);
       }
 
