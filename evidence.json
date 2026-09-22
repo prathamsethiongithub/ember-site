@@ -1,0 +1,17 @@
+{
+  "syncedAt": "2026-09-22T04:44:53.156Z",
+  "script": "scripts/sync-evidence.mjs",
+  "repo": "C:/Users/fortn/Desktop/check this ai agents this desktop folder is for you outside of this are my games/mu-launcher",
+  "branch": "oracle-recovery",
+  "commit": "b5d1fc7",
+  "checks": {
+    "value": 271,
+    "source": "vitest full suite, all green"
+  },
+  "oracleCorpus": {
+    "passed": true,
+    "namedCrashes": 1,
+    "claim": "zero misattributions"
+  },
+  "rule": "no hardcoded numbers; honest absence beats stale data"
+}

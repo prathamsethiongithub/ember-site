@@ -1,0 +1,487 @@
+/* ============================================================
+   ember launch site — phase 1/5 skeleton
+   laws inherited from the EMBER design system:
+     · one amber (#C88735) — NEVER decorative, max 4 locations
+     · near-black ground, two grays, no third hue
+     · lowercase honest copy
+     · motion is grammar: scrub only, no bounce, no stagger-for-show
+     · prefers-reduced-motion kills all animation, layout intact
+   ============================================================ */
+
+:root {
+  /* color — the whole palette */
+  --ground: #070608;
+  --ember: #C88735;      /* the one accent */
+  --fg: #e8e6e3;         /* primary text */
+  --dim: #8a8681;        /* secondary */
+  --faint: #45423f;      /* tertiary / hairlines */
+
+  /* type — two faces */
+  --serif: "Instrument Serif", georgia, "Times New Roman", serif;
+  --sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "Cascadia Mono", consolas, ui-monospace, monospace;
+
+  /* scale — fluid, clamp-only (no breakpoint forks for type) */
+  --t-hero: clamp(4.5rem, 17vw, 13rem);
+  --t-display: clamp(1.9rem, 4.6vw, 3.4rem);
+  --t-title: clamp(1.25rem, 2.4vw, 1.75rem);
+  --t-body: clamp(0.95rem, 1.25vw, 1.1rem);
+  --t-mono: 0.72rem;
+
+  /* space — when in doubt, double it */
+  --pad-x: clamp(1.5rem, 7vw, 8rem);
+  --section-y: clamp(9rem, 22vh, 16rem);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+/* the OS scrollbar is the only bright default-UI artifact on the page — make it belong */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--ground); }
+::-webkit-scrollbar-thumb { background: #262421; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #33302c; }
+
+body {
+  background: var(--ground);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--ember); color: var(--ground); }
+
+/* ---------- section rhythm ---------- */
+
+.section {
+  padding: var(--section-y) var(--pad-x);
+  position: relative;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: clamp(3rem, 8vh, 6rem);
+}
+
+/* ---------- S0 · hero ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hero-word {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--t-hero);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.hero-sub {
+  margin-top: clamp(1.5rem, 4vh, 3rem);
+  font-size: var(--t-body);
+  color: var(--dim);
+  max-width: 34ch;
+}
+
+.hero-cta {
+  margin-top: clamp(2.5rem, 7vh, 5rem);
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+/* amber location #1 — the download button. the only filled element on the site. */
+.btn-ember {
+  background: var(--ember);
+  color: var(--ground);
+  font-weight: 500;
+  padding: 0.85em 2em;
+  border-radius: 999px;
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-ember:hover { opacity: 0.85; }
+
+.btn-ghost {
+  color: var(--dim);
+  padding: 0.75em 0;
+  border-bottom: 1px solid transparent;
+  transition: color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-ghost:hover { color: var(--fg); border-color: var(--faint); }
+
+.hero-hint {
+  position: absolute;
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  left: var(--pad-x);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  /* the only idle motion in S0 — a breath, 2-3% amplitude, 3s cycle */
+  animation: hint-breathe 3s ease-in-out infinite;
+}
+
+@keyframes hint-breathe {
+  0%, 100% { opacity: 0.88; }
+  50%      { opacity: 0.93; }
+}
+
+/* ---------- S1 · the materialize — coal ignition ----------
+   the word is HTML type. scroll drives --p (0 -> 1) across the pin:
+   p=0   blurred amber heat — barely a spot in the dark
+   p=.5  frosted suggestion — type through lit glass
+   p=1   crisp warm-white word, amber bloom underneath, breathing
+   --p defaults to 1: no-JS / no-scroll-system => the coal at rest. */
+
+.materialize {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.materialize-frame {
+  width: min(72rem, 100%);
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ignition {
+  --p: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ignition-word {
+  position: relative;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(4rem, 15vw, 12rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* layer 0 — ambient spill: the coal LIGHTS the room it sits in.
+   a wide, very dark warm radial so the black around the word is never flat. */
+.ignition-bloom {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(88vw, 64rem);
+  height: 30rem;
+  transform: translate(-50%, -50%) scale(calc(0.88 + 0.18 * var(--p)));
+  background: radial-gradient(closest-side,
+    rgba(200, 135, 53, 0.11) 0%,
+    rgba(150, 80, 30, 0.055) 42%,
+    rgba(90, 40, 12, 0.022) 66%,
+    transparent 82%);
+  opacity: calc(0.3 + 0.7 * var(--p));
+  animation: bloom-breathe 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bloom-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(calc(0.88 + 0.18 * var(--p))); }
+  50%      { transform: translate(-50%, -50%) scale(calc(0.92 + 0.18 * var(--p))); }
+}
+
+/* layer 1 — the glow: broad amber heat, tightening as you approach.
+   text-shadow carries the temperature ladder: amber -> deep orange -> dark. */
+.ignition-glow {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: #e8a33d;
+  filter: blur(calc(8px + (1 - var(--p)) * 36px));
+  opacity: calc(0.5 + 0.4 * var(--p));
+  text-shadow:
+    0 0 14px rgba(255, 180, 84, 0.50),
+    0 0 46px rgba(200, 110, 40, 0.34),
+    0 0 100px rgba(140, 60, 20, 0.24);
+}
+
+/* layer 2 — the coal core: warm white, resolves out of the blur, rock-steady.
+   crispness at 100% comes from the core out-reading the halo, not from
+   shrinking the halo. the breathing lives on the bloom + glow, not here. */
+.ignition-crisp {
+  position: relative;
+  display: block;
+  color: #f4ead9; /* warm white — the amber budget stays with the embers */
+  filter: blur(calc((1 - var(--p)) * 18px));
+  opacity: clamp(0, calc((var(--p) - 0.35) * 2.2), 1);
+  text-shadow:
+    0 0 2px rgba(255, 240, 220, 0.35),
+    0 0 10px rgba(255, 190, 100, 0.16);
+}
+
+/* rising embers — they LEAVE the fire; 6-10 alive at once */
+.spark {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #e8a33d 0%, rgba(200, 135, 53, 0.55) 45%, transparent 72%);
+  box-shadow: 0 0 8px 2px rgba(200, 135, 53, 0.32);
+  opacity: 0;
+  animation: spark-rise var(--dur, 3.2s) ease-out forwards;
+}
+
+@keyframes spark-rise {
+  0%   { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  12%  { opacity: 0.85; }
+  100% { transform: translate(var(--dx, 12px), -150px) scale(0.35); opacity: 0; }
+}
+
+/* ---------- S2 · the launcher — procession ---------- */
+
+.beats {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6rem, 16vh, 11rem);
+}
+
+.beat { max-width: 46rem; }
+
+.beat-num {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.22em;
+  color: var(--faint);
+  margin-bottom: 1.25rem;
+}
+
+.beat-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--t-display);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.beat-line {
+  color: var(--dim);
+  max-width: 52ch;
+}
+
+/* ---------- S2 · oracle evidence — output, not design ----------
+   mono is the site's third face (exemption, documented): micro-labels and
+   evidence/terminal text only. no box, no glow — whitespace does the framing. */
+.oracle-evidence {
+  margin-top: 1.75rem;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  color: var(--dim);
+  white-space: pre-wrap;
+  /* hanging indent: if a long line wraps (mobile), the continuation reads
+     as subordinate to its key — terminal wrap, not a second line item. */
+  padding-left: 8ch;
+  text-indent: -8ch;
+}
+
+.oracle-evidence code { font-family: inherit; }
+
+/* the culprit line — the ONLY colour in S2 (phase-3 spec) */
+.oracle-culprit { color: var(--ember); }
+
+/* S4 status dot — static amber (director-ordered; live status wires in phase 5+,
+   no fake "online" label, no animation). */
+.smp-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ember);
+  margin-right: 0.6rem;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+/* ---------- S3 · the evidence — proof ---------- */
+
+.evidence-number {
+  font-family: var(--serif);
+  font-size: var(--t-display);
+  line-height: 1.15;
+  margin-bottom: clamp(3rem, 8vh, 5rem);
+}
+
+/* amber location #2 — the one key number. the only amber in the body flow. */
+#check-count { color: var(--ember); }
+
+.evidence-unit { color: var(--fg); }
+
+.evidence-line {
+  color: var(--dim);
+  max-width: 52ch;
+  margin-bottom: 0.9rem;
+}
+
+/* ---------- S4 · the smp — invitation ---------- */
+
+.smp-line {
+  font-family: var(--serif);
+  font-size: var(--t-title);
+  line-height: 1.4;
+  margin-bottom: clamp(3rem, 8vh, 5rem);
+  max-width: 30ch;
+}
+
+/* hairlines, not boxes — the card is a row of facts, not a panel */
+.smp-card {
+  max-width: 30rem;
+  border-top: 1px solid var(--faint);
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.smp-name {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.smp-meta {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  margin-bottom: 1.5rem;
+}
+
+.smp-join { align-self: flex-start; }
+
+/* ---------- S5 · the builder — signature ---------- */
+
+.builder { min-height: 80svh; display: flex; flex-direction: column; justify-content: center; }
+
+.builder-lines {
+  font-family: var(--serif);
+  font-size: var(--t-display);
+  line-height: 1.35;
+  display: flex;
+  flex-direction: column;
+}
+
+.builder-credit {
+  margin-top: clamp(4rem, 12vh, 8rem);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* ---------- S6 · footer — exhale ---------- */
+
+.footer {
+  min-height: 60svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: clamp(3rem, 8vh, 5rem);
+}
+
+.footer-word {
+  font-family: var(--serif);
+  font-size: var(--t-display);
+  color: var(--fg);
+}
+
+/* amber location #3 — the footer word. the site's last breath is amber. */
+.footer-burn {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--t-display);
+  color: var(--ember);
+  margin-bottom: clamp(3rem, 8vh, 5rem);
+}
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* footer links — hover goes to full ink, NOT amber: the amber budget is
+   spent on the download button, the S1 embers, the S3 number and the
+   footer word. four locations, exactly. */
+.footer-links a {
+  color: var(--dim);
+  transition: color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.footer-links a:hover { color: var(--fg); }
+
+/* ---------- scroll skeleton — hidden states gated on .js ----------
+   without JS (or with reduced motion) everything is visible and static.
+   beats hide at the CHILD level now: each child (num/title/line/evidence)
+   gets its own entrance in the procession. */
+
+.js .reveal,
+.js .beat > *,
+.js .sig-line {
+  opacity: 0;
+}
+
+/* ---------- reduced motion: static, layout intact ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal,
+  .js .beat > *,
+  .js .sig-line { opacity: 1; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- mobile: typography-first, narrative preserved ---------- */
+
+@media (max-width: 767px) {
+  :root {
+    --section-y: clamp(6rem, 16vh, 9rem);
+  }
+  .hero { min-height: 92svh; }
+  .materialize-frame { height: 80svh; }
+  .beat { max-width: 100%; }
+  .beats { gap: clamp(4.5rem, 12vh, 7rem); }
+  .hero-cta { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  /* evidence at 12px keeps the reason line on ONE line at 390px */
+  .oracle-evidence { font-size: 12px; letter-spacing: 0.01em; line-height: 1.8; }
+  /* the signature carries desktop weight on a phone */
+  .builder { min-height: 65svh; }
+  .builder-lines { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+}

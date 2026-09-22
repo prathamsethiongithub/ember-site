@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ember — a minecraft launcher. built differently.</title>
+  <meta name="description" content="ember is a minecraft launcher built differently: one flame, honest state, real recovery." />
+  <link rel="canonical" href="https://prathamsethiongithub.github.io/ember-site/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <!-- type: two faces only — instrument serif (display) + instrument sans (text) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       ember — product launch site
+       phase 1/5 — visual skeleton (typography + scroll rhythm only)
+       phase 2: S1 materialization scene · phase 3: oracle output
+       phase 4: motion polish · phase 5: evidence data injection
+       ============================================================ -->
+
+  <main>
+
+    <!-- S0 · hero · rhythm: stillness -->
+    <section id="s0" class="section hero" data-rhythm="stillness">
+      <div class="hero-inner">
+        <h1 class="hero-word">ember</h1>
+        <p class="hero-sub">a minecraft launcher. built differently.</p>
+        <div class="hero-cta">
+          <a class="btn-ember" href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">download</a>
+          <a class="btn-ghost" href="#s1">explore</a>
+        </div>
+      </div>
+      <p class="hero-hint" aria-hidden="true">come closer.</p>
+    </section>
+
+    <!-- S1 · the materialize · rhythm: anticipation · coal ignition -->
+    <section id="s1" class="section materialize" data-rhythm="anticipation">
+      <div class="materialize-frame">
+        <!-- coal ignition (phase 2 rework): HTML type glows through blur into
+             crisp warm light as the section pins. the word is decorative —
+             the hero h1 already names the product. -->
+        <div class="ignition" aria-hidden="true">
+          <span class="ignition-bloom"></span>
+          <p class="ignition-word">
+            <span class="ignition-glow">ember</span>
+            <span class="ignition-crisp">ember</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- S2 · the launcher · rhythm: procession -->
+    <section id="s2" class="section launcher" data-rhythm="procession">
+      <p class="eyebrow">the launcher</p>
+
+      <ol class="beats">
+        <li class="beat">
+          <span class="beat-num">01</span>
+          <h2 class="beat-title">the oracle</h2>
+          <p class="beat-line">your game crashed. we know why.</p>
+          <!-- real output: tests/fixtures/crash-corpus/corrupt-jar.txt (rotated-log
+               surface) + manifest.json groundTruth. reason = innermost Caused by
+               (truth 24 §4.1 fix, master a538238); culprit = Fabric "Error
+               analyzing [<path>]" rule → jar filename. -->
+          <pre class="oracle-evidence"><code>reason: java.util.zip.ZipException: zip END header not found
+culprit: <span class="oracle-culprit">corrupted-mod.jar</span>
+verdict: named with certainty</code></pre>
+        </li>
+        <li class="beat">
+          <span class="beat-num">02</span>
+          <h2 class="beat-title">playerdirector</h2>
+          <p class="beat-line">your character watches your cursor. waves when you launch. materializes from his own pixels.</p>
+        </li>
+        <li class="beat">
+          <span class="beat-num">03</span>
+          <h2 class="beat-title">recovery</h2>
+          <p class="beat-line">crash. culprit named. one click — coming with v1.</p>
+        </li>
+        <li class="beat">
+          <span class="beat-num">04</span>
+          <h2 class="beat-title">mod intelligence</h2>
+          <p class="beat-line">modrinth-native. hash-verified. six downloads at once.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- S3 · the evidence · rhythm: proof -->
+    <section id="s3" class="section evidence" data-rhythm="proof">
+      <p class="eyebrow">the evidence</p>
+      <p class="evidence-number">
+        [<span id="check-count" data-source="repo:b5d1fc7@2026-09-22">271</span>]
+        <span class="evidence-unit">automated checks.</span>
+      </p>
+      <p class="evidence-line reveal">[<span id="crash-count" data-source="repo:b5d1fc7@2026-09-22">1</span>] crashes named. zero misattributions.</p>
+      <!-- data rule: both mounts are injected in Phase 5 from real sources —
+           #check-count from the repository's actual test count, #crash-count
+           from the oracle corpus records. hardcoding a number here is FORBIDDEN;
+           the em dash is the honest unknown state. -->
+    </section>
+
+    <!-- S4 · the smp · rhythm: invitation -->
+    <section id="s4" class="section smp" data-rhythm="invitation">
+      <p class="eyebrow">the smp</p>
+      <p class="smp-line reveal">a world built around the same philosophy.</p>
+      <div class="smp-card reveal">
+        <p class="smp-name"><span class="smp-dot" aria-hidden="true"></span>masters' union smp</p>
+        <p class="smp-meta">injected at launch. no manual setup.</p>
+        <!-- TODO: director provides the discord invite -->
+        <a class="btn-ghost smp-join" href="#">join the discord</a>
+      </div>
+    </section>
+
+    <!-- S5 · the builder · rhythm: signature -->
+    <section id="s5" class="section builder" data-rhythm="signature">
+      <p class="builder-lines">
+        <span class="sig-line">designed.</span>
+        <span class="sig-line">engineered.</span>
+        <span class="sig-line">shipped.</span>
+      </p>
+      <p class="builder-credit reveal">built by pratham.</p>
+    </section>
+
+    <!-- S6 · footer · rhythm: exhale -->
+    <footer id="s6" class="section footer" data-rhythm="exhale">
+      <p class="footer-word reveal">ember.</p>
+      <p class="footer-burn reveal">still burning.</p>
+      <nav class="footer-links">
+        <a href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">github</a>
+        <!-- TODO: director provides the discord invite -->
+        <a href="#">discord</a>
+        <a href="#s0">top</a>
+      </nav>
+    </footer>
+
+  </main>
+
+  <!-- vendored — no cdn dependency, runs offline -->
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+  <script src="materialize.js"></script>
+</body>
+</html>

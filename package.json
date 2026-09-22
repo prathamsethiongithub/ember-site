@@ -1,0 +1,12 @@
+{
+  "name": "ember-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ember — product launch site. the evidence is read from the repo at deploy time.",
+  "scripts": {
+    "sync": "node scripts/sync-evidence.mjs",
+    "serve": "node scripts/serve.mjs",
+    "deploy": "npm run sync && git add -A && git commit -m \"deploy: evidence refresh\" && git push"
+  }
+}
