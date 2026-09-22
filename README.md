@@ -68,10 +68,12 @@ regions (head/body/arms/legs × 6 faces each), **including the overlay layer**
 
 ## brand assets (the real ones)
 
-- `assets/brand/logo-full.png` — the amber ribbon-S mark (transparent) — topbar, footer, favicon
+- `assets/brand/logo-full.png` — the amber ribbon-S mark (transparent) — topbar, footer
+- `assets/brand/favicon-256.png` — the mark squared (1:1, 12% padding) for the favicon
 - `assets/brand/intro.mp4` — **the launcher's own splash video**, now the site's intro veil
-  (plays once per session, lifts on end / click / scroll / 3.4s; skipped entirely under reduced motion)
-  note: it carries a small `seedance.io` watermark baked into the video itself
+  (plays once per session, lifts on end / click / scroll / 3.4s; skipped entirely under reduced motion).
+  the source video's `seedance.io` watermark was **cropped out for real** (ffmpeg `crop=496:496:167:0`)
+  and the result is **1:1 (496x496)**; the untouched original is kept as `intro-original.mp4`
 - `assets/brand/logo-reveal.mp4` — the lighting reveal, held in reserve
 - `assets/brand/*.svg` — **the launcher's cursor set**, wired as the site's cursors:
   main → default, hand → links/buttons, type → text (viewBox + 32px added for CSS use)
