@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- the whole brand in 16px: one ember dot in a dark room -->
-  <rect width="32" height="32" rx="7" fill="#070608"/>
-  <circle cx="16" cy="16" r="5.5" fill="#C88735"/>
-  <circle cx="16" cy="16" r="9" fill="none" stroke="#C88735" stroke-opacity="0.18" stroke-width="2"/>
+  <rect width="32" height="32" rx="7" fill="#08070a"/>
+  <rect x="8" y="8" width="16" height="16" rx="2" fill="#5f9e4a"/>
+  <rect x="12" y="12" width="8" height="8" rx="1" fill="#ff9a3c"/>
 </svg>

@@ -1,9 +1,9 @@
 {
   "name": "ember-site",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "ember — product launch site. the evidence is read from the repo at deploy time.",
+  "description": "ember — the island. a minecraft launcher launch site. evidence read from the repo at deploy time.",
   "scripts": {
     "sync": "node scripts/sync-evidence.mjs",
     "serve": "node scripts/serve.mjs",

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* tiny static server for local preview: node scripts/serve.mjs [port] */
+/* tiny static server: node scripts/serve.mjs [port] */
 import { createServer } from "node:http";
 import { readFileSync, existsSync } from "node:fs";
 import { join, extname, dirname, resolve } from "node:path";
@@ -10,7 +10,7 @@ const PORT = Number(process.argv[2] || 4173);
 const MIME = {
   ".html": "text/html", ".css": "text/css", ".js": "text/javascript",
   ".mjs": "text/javascript", ".svg": "image/svg+xml", ".json": "application/json",
-  ".png": "image/png", ".woff2": "font/woff2",
+  ".png": "image/png",
 };
 
 createServer((req, res) => {

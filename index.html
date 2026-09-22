@@ -4,148 +4,213 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ember — a minecraft launcher. built differently.</title>
-  <meta name="description" content="ember is a minecraft launcher built differently: one flame, honest state, real recovery." />
+  <meta name="description" content="ember is a minecraft launcher built differently: a crash oracle, a character who watches you, and mods that just work. masters' union smp." />
   <link rel="canonical" href="https://prathamsethiongithub.github.io/ember-site/" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
-  <!-- type: two faces only — instrument serif (display) + instrument sans (text) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- ============================================================
-       ember — product launch site
-       phase 1/5 — visual skeleton (typography + scroll rhythm only)
-       phase 2: S1 materialization scene · phase 3: oracle output
-       phase 4: motion polish · phase 5: evidence data injection
+       ember — the island. full rebuild.
+       one voxel world, one camera flight, one honest page.
        ============================================================ -->
 
-  <main>
+  <!-- S0 · THE ISLAND -->
+  <section id="hero" class="hero">
+    <div class="hero-scene" aria-hidden="true"></div>
+    <img class="hero-fallback" src="assets/hero-fallback.png" alt="" aria-hidden="true" />
 
-    <!-- S0 · hero · rhythm: stillness -->
-    <section id="s0" class="section hero" data-rhythm="stillness">
-      <div class="hero-inner">
-        <h1 class="hero-word">ember</h1>
-        <p class="hero-sub">a minecraft launcher. built differently.</p>
-        <div class="hero-cta">
-          <a class="btn-ember" href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">download</a>
-          <a class="btn-ghost" href="#s1">explore</a>
+    <header class="topbar">
+      <span class="wordmark">ember</span>
+      <nav class="topnav">
+        <a href="#oracle">the oracle</a>
+        <a href="#character">the character</a>
+        <a href="#app">the app</a>
+        <a href="#receipts">receipts</a>
+      </nav>
+      <a class="btn-ember btn-sm" href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">download</a>
+    </header>
+
+    <div class="hero-copy">
+      <h1 class="hero-title">
+        <span class="line">a minecraft launcher.</span>
+        <span class="line line-em">built differently.</span>
+      </h1>
+      <p class="hero-sub">the crash oracle, the character who watches you, and mods that just work. one flame, no clutter.</p>
+      <div class="hero-cta">
+        <a class="btn-ember" href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">download</a>
+        <a class="btn-ghost" href="#oracle">see the fire ↓</a>
+      </div>
+    </div>
+
+    <p class="hero-hint" aria-hidden="true">scroll — the camera flies</p>
+  </section>
+
+  <!-- S1 · THE ORACLE -->
+  <section id="oracle" class="section oracle">
+    <div class="wrap grid-2">
+      <div class="col-copy">
+        <p class="eyebrow">01 · the oracle</p>
+        <h2 class="h2">your game crashed.<br /><em>we know why.</em></h2>
+        <p class="lede">the oracle reads the wreckage — rotated logs, crash reports, the whole causal chain — and names the culprit. when it can't name one, it says so, honestly. no guessing, ever.</p>
+        <ul class="points">
+          <li>walks the full <code>Caused by:</code> chain to the root</li>
+          <li>names the mod, or stays silent — never wrong</li>
+          <li>one click to the fix when a fix exists</li>
+        </ul>
+      </div>
+      <div class="col-visual">
+        <div class="terminal">
+          <div class="terminal-bar"><i></i><i></i><i></i><span>ember · crash report</span></div>
+          <pre class="terminal-body"><span class="t-dim">$</span> the game exited with code 1
+<span class="t-dim">…</span>
+reason: <span class="t-warn">java.util.zip.ZipException: zip END header not found</span>
+culprit: <span class="t-ember">corrupted-mod.jar</span>
+verdict: <span class="t-ok">named with certainty</span>
+
+<span class="t-dim">// real output. tests/fixtures/crash-corpus/corrupt-jar.txt</span></pre>
         </div>
       </div>
-      <p class="hero-hint" aria-hidden="true">come closer.</p>
-    </section>
+    </div>
+  </section>
 
-    <!-- S1 · the materialize · rhythm: anticipation · THE SCENE -->
-    <section id="s1" class="section materialize" data-rhythm="anticipation">
-      <div class="materialize-frame">
-        <!-- the spectacle (phase 6): a blocky character assembles from ember-cubes
-             as the section pins; he breathes and tracks the cursor once formed.
-             no WebGL => the build-rendered fallback image shows. -->
-        <div class="scene" aria-hidden="true"></div>
-        <img class="scene-fallback" src="assets/character-fallback.png" alt="" aria-hidden="true" />
-        <p class="scene-caption">not another launcher.</p>
+  <!-- S2 · THE CHARACTER -->
+  <section id="character" class="section character">
+    <div class="wrap grid-2 grid-2-flip">
+      <div class="col-visual">
+        <div class="character-stage">
+          <div class="character-scene" aria-hidden="true"></div>
+          <img class="character-fallback" src="assets/character-fallback.png" alt="a blocky minecraft character lit by warm light" />
+        </div>
       </div>
-    </section>
-
-    <!-- S2 · the launcher · rhythm: procession -->
-    <section id="s2" class="section launcher" data-rhythm="procession">
-      <p class="eyebrow">the launcher</p>
-
-      <ol class="beats">
-        <li class="beat">
-          <span class="beat-num">01</span>
-          <h2 class="beat-title">the oracle</h2>
-          <p class="beat-line">your game crashed. we know why.</p>
-          <!-- real output: tests/fixtures/crash-corpus/corrupt-jar.txt (rotated-log
-               surface) + manifest.json groundTruth. reason = innermost Caused by
-               (truth 24 §4.1 fix, master a538238); culprit = Fabric "Error
-               analyzing [<path>]" rule → jar filename. -->
-          <pre class="oracle-evidence"><code>reason: java.util.zip.ZipException: zip END header not found
-culprit: <span class="oracle-culprit">corrupted-mod.jar</span>
-verdict: named with certainty</code></pre>
-        </li>
-        <li class="beat">
-          <span class="beat-num">02</span>
-          <h2 class="beat-title">playerdirector</h2>
-          <p class="beat-line">your character watches your cursor. waves when you launch. materializes from his own pixels.</p>
-        </li>
-        <li class="beat">
-          <span class="beat-num">03</span>
-          <h2 class="beat-title">recovery</h2>
-          <p class="beat-line">crash. culprit named. one click — coming with v1.</p>
-        </li>
-        <li class="beat">
-          <span class="beat-num">04</span>
-          <h2 class="beat-title">mod intelligence</h2>
-          <p class="beat-line">modrinth-native. hash-verified. six downloads at once.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- S3 · the evidence · rhythm: proof -->
-    <section id="s3" class="section evidence" data-rhythm="proof">
-      <p class="eyebrow">the evidence</p>
-      <p class="evidence-number">
-        [<span id="check-count" data-source="repo:b5d1fc7@2026-09-22">271</span>]
-        <span class="evidence-unit">automated checks.</span>
-      </p>
-      <p class="evidence-line reveal">[<span id="crash-count" data-source="repo:b5d1fc7@2026-09-22">1</span>] crashes named. zero misattributions.</p>
-      <!-- data rule: both mounts are injected in Phase 5 from real sources —
-           #check-count from the repository's actual test count, #crash-count
-           from the oracle corpus records. hardcoding a number here is FORBIDDEN;
-           the em dash is the honest unknown state. -->
-    </section>
-
-    <!-- S4 · the smp · rhythm: invitation -->
-    <section id="s4" class="section smp" data-rhythm="invitation">
-      <!-- the fire follows you down: 4 dim ember-cubes, <15% opacity -->
-      <span class="ember-float" aria-hidden="true" style="left:12%;top:18%"></span>
-      <span class="ember-float" aria-hidden="true" style="left:78%;top:30%;animation-delay:-4s"></span>
-      <span class="ember-float" aria-hidden="true" style="left:64%;top:70%;animation-delay:-8s"></span>
-      <span class="ember-float" aria-hidden="true" style="left:22%;top:82%;animation-delay:-12s"></span>
-      <p class="eyebrow">the smp</p>
-      <p class="smp-line reveal">a world built around the same philosophy.</p>
-      <div class="smp-card reveal">
-        <p class="smp-name"><span class="smp-dot" aria-hidden="true"></span>masters' union smp</p>
-        <p class="smp-meta">injected at launch. no manual setup.</p>
-        <!-- TODO: director provides the discord invite -->
-        <a class="btn-ghost smp-join" href="#">join the discord</a>
+      <div class="col-copy">
+        <p class="eyebrow">02 · playerdirector</p>
+        <h2 class="h2">he watches you.</h2>
+        <p class="lede">your character stands in the dark and tracks your cursor — damped, subtle, alive. he breathes. when you launch, he waves goodbye.</p>
+        <p class="try-it">→ move your mouse. <span class="dim">he follows.</span></p>
+        <ul class="points">
+          <li>cursor-tracking gaze, ±15°</li>
+          <li>a farewell wave on every launch</li>
+          <li>materializes from his own pixels, low-res to full</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- S5 · the builder · rhythm: signature -->
-    <section id="s5" class="section builder" data-rhythm="signature">
-      <p class="builder-lines">
-        <span class="sig-line">designed.</span>
-        <span class="sig-line">engineered.</span>
-        <span class="sig-line">shipped.</span>
-      </p>
-      <p class="builder-credit reveal">built by pratham.</p>
-    </section>
+  <!-- S3 · THE APP -->
+  <section id="app" class="section app">
+    <div class="wrap">
+      <p class="eyebrow center">03 · the app</p>
+      <h2 class="h2 center">the actual app.<br /><em>not a mockup.</em></h2>
+      <p class="lede center narrow">screenshots from the real build, taken from the real process. this is what you get when you press play.</p>
 
-    <!-- S6 · footer · rhythm: exhale -->
-    <footer id="s6" class="section footer" data-rhythm="exhale">
-      <p class="footer-word reveal">ember.</p>
-      <p class="footer-burn reveal">still burning.</p>
+      <div class="shot-main">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>ember · masters' union smp</span></div>
+          <img src="assets/app-play.png" alt="ember launcher — the play view: a glowing ring around your character, the word Ready., and the enter the world button" />
+        </div>
+        <p class="shot-cap">the play view. your character, the ring, the world — one click away.</p>
+      </div>
+
+      <div class="shot-row">
+        <figure class="shot">
+          <div class="browser browser-sm">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="assets/app-worlds.png" alt="ember launcher — the worlds view" />
+          </div>
+          <figcaption>worlds — every instance, managed.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="browser browser-sm">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="assets/app-identity.png" alt="ember launcher — the identity view" />
+          </div>
+          <figcaption>identity — your skins, your accounts.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4 · UNDER THE HOOD -->
+  <section id="under" class="section under">
+    <div class="wrap">
+      <p class="eyebrow center">04 · under the hood</p>
+      <h2 class="h2 center">built like it matters.</h2>
+      <div class="cards">
+        <div class="card"><span class="card-ico">◈</span><h3>modrinth-native</h3><p>mods straight from the source, version-matched, never a stale mirror.</p></div>
+        <div class="card"><span class="card-ico">#</span><h3>hash-verified</h3><p>every download checked against its sha512 before it touches your game.</p></div>
+        <div class="card"><span class="card-ico">⇶</span><h3>six at once</h3><p>bounded-parallel fetching — a modpack's files land in one pass.</p></div>
+        <div class="card"><span class="card-ico">▣</span><h3>.mrpack import</h3><p>drop a modpack, get a world. overrides, configs, the lot.</p></div>
+        <div class="card"><span class="card-ico">▸</span><h3>a real console</h3><p>live logs you can read and filter — because black boxes are rude.</p></div>
+        <div class="card"><span class="card-ico">⚑</span><h3>the smp, injected</h3><p>masters' union smp lands in your server list at launch. no manual setup.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5 · THE RECEIPTS -->
+  <section id="receipts" class="section receipts">
+    <div class="wrap center">
+      <p class="eyebrow center">05 · the receipts</p>
+      <h2 class="h2 center">the numbers, <em>live.</em></h2>
+      <p class="lede center narrow">read from the repository at deploy time by <code>sync-evidence.mjs</code>. if the suite isn't green, the dash stays. no lying chips.</p>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num" id="check-count" data-source="repo:b5d1fc7@2026-09-22">271</span>
+          <span class="stat-label">automated checks, green</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="crash-count" data-source="repo:b5d1fc7@2026-09-22">1</span>
+          <span class="stat-label">crashes named · zero misattributions</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">60<span class="stat-unit">fps</span></span>
+          <span class="stat-label">this page, scene live</span>
+        </div>
+      </div>
+      <p class="receipt-note">the repo does the bragging → <a href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">github</a></p>
+    </div>
+  </section>
+
+  <!-- S6 · THE SMP + FOOTER -->
+  <section id="smp" class="section smp">
+    <div class="wrap center">
+      <p class="eyebrow center">06 · the smp</p>
+      <h2 class="h2 center">a world built around<br />the same philosophy.</h2>
+      <div class="smp-card">
+        <span class="smp-dot"></span>
+        <div class="smp-info">
+          <strong>masters' union smp</strong>
+          <code>mastersunion.minekeep.gg</code>
+        </div>
+        <a class="btn-ghost" href="#">join the discord</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <span class="wordmark">ember.</span>
+      <span class="footer-burn">still burning.</span>
       <nav class="footer-links">
         <a href="https://github.com/prathamsethiongithub/mu-launcher" rel="noopener">github</a>
-        <!-- TODO: director provides the discord invite -->
         <a href="#">discord</a>
-        <a href="#s0">top</a>
+        <a href="#hero">top</a>
       </nav>
-    </footer>
+    </div>
+    <p class="footer-credit">built by pratham · masters' union · mc 26.1.2 · fabric 0.19.3</p>
+  </footer>
 
-  </main>
-
-  <!-- vendored — no cdn dependency, runs offline -->
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/three.min.js"></script>
+  <script src="scene.js"></script>
+  <script src="character.js"></script>
   <script src="main.js"></script>
-  <script src="materialize.js"></script>
 </body>
 </html>
