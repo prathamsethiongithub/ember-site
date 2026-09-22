@@ -30,7 +30,7 @@
     headHat:   [[32,8,8,8],  [40,8,8,8],  [48,8,8,8],  [56,8,8,8],  [40,0,8,8],  [48,0,8,8]],
     torsoJack: [[16,36,4,12],[20,36,8,12],[28,36,4,12],[32,36,8,12],[20,32,8,4],[28,32,8,4]],
     armRJack:  [[40,36,4,12],[44,36,4,12],[48,36,4,12],[52,36,4,12],[44,32,4,4],[48,32,4,4]],
-    armLJack:  [[48,52,4,12],[52,52,4,12],[56,52,4,12],[40,52,4,12],[52,48,4,4],[56,48,4,4]],
+    armLJack:  [[48,52,4,12],[52,52,4,12],[56,52,4,12],[60,52,4,12],[52,48,4,4],[56,48,4,4]], // back face was [40,52] — the RIGHT arm's region: the pale plate bug
     legRPant:  [[0,36,4,12], [4,36,4,12], [8,36,4,12], [12,36,4,12],[4,32,4,4], [8,32,4,4]],
     legLPant:  [[0,52,4,12], [4,52,4,12], [8,52,4,12], [12,52,4,12],[4,48,4,4], [8,48,4,4]],
   };
@@ -87,8 +87,8 @@
     var root = new THREE.Group();
 
     /* materials — start grey; the texture lands when it loads */
-    var skinMat = new THREE.MeshStandardMaterial({ color: 0x9a9a9a, roughness: 0.78, metalness: 0.02 });
-    var overMat = new THREE.MeshStandardMaterial({ color: 0x9a9a9a, roughness: 0.78, transparent: true, alphaTest: 0.5, depthWrite: true });
+    var skinMat = new THREE.MeshStandardMaterial({ color: 0xa88a5c, roughness: 0.78, metalness: 0.02 });  // amber grade: raw yellow → burnt orange (launcher target)
+    var overMat = new THREE.MeshStandardMaterial({ color: 0xa88a5c, roughness: 0.78, transparent: true, alphaTest: 0.5, depthWrite: true });
 
     var groups = {};
     ["head", "torso", "armR", "armL", "legR", "legL"].forEach(function (k) { groups[k] = new THREE.Group(); });

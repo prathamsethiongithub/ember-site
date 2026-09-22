@@ -66,7 +66,7 @@
     keyLight.shadow.camera.near = 1; keyLight.shadow.camera.far = 50;
     keyLight.shadow.bias = -0.002;
     scene.add(keyLight);
-    himLight = new THREE.PointLight(0xffc07a, 0.5, 14, 2);
+    himLight = new THREE.PointLight(0xffc07a, 0.28, 14, 2);
     himLight.position.set(5.6, 6.6, 8.4);   // frontal + high: lights the FACE and both arms, never a hot spot
     scene.add(himLight);
     var fill = new THREE.DirectionalLight(0x2c3d5c, 0.32);

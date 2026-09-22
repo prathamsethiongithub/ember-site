@@ -2,8 +2,8 @@ import { spawn } from "node:child_process";
 import { setTimeout as sleep } from "node:timers/promises";
 const OUT = "C:/Users/fortn/AppData/Local/Temp";
 const edge = spawn("C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
-  ["--headless=new","--remote-debugging-port=9390","--user-data-dir="+OUT+"/edge-sr","about:blank"], { stdio: "ignore" });
-async function t(){for(let i=0;i<40;i++){try{const r=await fetch("http://127.0.0.1:9390/json/list");const l=await r.json();const p=l.find(x=>x.type==="page");if(p)return p.webSocketDebuggerUrl;}catch{}await sleep(400);}throw new Error("no target");}
+  ["--headless=new","--remote-debugging-port=9395","--user-data-dir="+OUT+"/edge-sr2","about:blank"], { stdio: "ignore" });
+async function t(){for(let i=0;i<40;i++){try{const r=await fetch("http://127.0.0.1:9395/json/list");const l=await r.json();const p=l.find(x=>x.type==="page");if(p)return p.webSocketDebuggerUrl;}catch{}await sleep(400);}throw new Error("no target");}
 const ws=new WebSocket(await t());await new Promise(r=>ws.onopen=r);
 let id=0;const pend=new Map();
 ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}};
@@ -20,7 +20,13 @@ const expr = `new Promise(function(res){
     function avg(x0,y0,w,h){ var d = x.getImageData(x0,y0,w,h).data; var r=0,g=0,b=0,n=d.length/4;
       for(var i=0;i<d.length;i+=4){ r+=d[i]; g+=d[i+1]; b+=d[i+2]; }
       return [Math.round(r/n), Math.round(g/n), Math.round(b/n)]; }
-    var out = {
+    var out = {};
+    // every 4x12 / 4x4 rect in the left-arm base (32,48)-(48,64) and overlay (48,48)-(64,64)
+    [[32,48],[36,48],[40,48],[44,48],[32,52],[36,52],[40,52],[44,52],
+     [48,48],[52,48],[56,48],[60,48],[48,52],[52,52],[56,52],[60,52]].forEach(function(r){
+      out[r[0]+','+r[1]] = avg(r[0], r[1], 4, (r[1]===48?4:12));
+    });
+    var dummy = {
       armR_front:  avg(44,20,4,12),   // skin right-arm front
       armL_front:  avg(36,52,4,12),   // skin left-arm front
       legR_front:  avg(4,20,4,12),

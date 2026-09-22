@@ -79,7 +79,7 @@
     noise(2, 2, [49, 99, 45], 20, { speckle: 22 });
     noise(3, 2, [78, 150, 180], 8, { speckle: 12 });
     // row 3: sand, planks, gravel?, unused
-    noise(0, 3, [198, 184, 140], 10, { speckle: 12 });
+    noise(0, 3, [172, 158, 118], 10, { speckle: 12 });
     noise(1, 3, [138, 106, 68], 9);
     for (var p = 0; p < TILE; p += 5) {        // plank seams
       x.fillStyle = "rgba(80,58,34,0.6)";
