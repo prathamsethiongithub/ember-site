@@ -5,7 +5,7 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import { setTimeout as sleep } from "node:timers/promises";
 
 const EDGE = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe";
-const URL = "file:///C:/Users/fortn/ember-site/index.html";
+const URL = "http://127.0.0.1:4173/index.html";
 const OUT = "C:/Users/fortn/AppData/Local/Temp";
 const ASSETS = "C:/Users/fortn/ember-site/assets";
 mkdirSync(ASSETS, { recursive: true });

@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#070608;overflow:hidden}canvas{display:block}</style></head>
+<body>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script>
+var renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+renderer.setSize(1200,675);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.setClearColor(0x070608);
+renderer.shadowMap.enabled = true;
+document.body.appendChild(renderer.domElement);
+
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(40, 1200/675, 0.1, 400);
+var loader = new THREE.GLTFLoader();
+window.onerror = function(m){ window.__loadErr = String(m); };
+loader.load('assets/hive.glb', function(gltf){
+  var root = gltf.scene;
+  scene.add(root);
+  window.__sceneRef = root;
+  window.__render = function(){ renderer.render(scene, camera); };
+  // materials: keep textures nearest, add subtle roughness
+  root.traverse(function(o){ if (o.isMesh && o.material && o.material.map) { o.material.map.magFilter = THREE.NearestFilter; o.material.map.minFilter = THREE.NearestFilter; o.material.map.needsUpdate = true; } });
+  // lights
+  scene.add(new THREE.AmbientLight(0x40372c, 0.55));
+  var key = new THREE.DirectionalLight(0xffc07a, 2.2); key.position.set(26, 40, 18); key.castShadow = true; scene.add(key);
+  var rim = new THREE.DirectionalLight(0x9fc2e8, 0.5); rim.position.set(-30, 20, -35); scene.add(rim);
+  fetch('assets/hive-meta.json').then(function(r){ return r.json(); }).then(function(meta){
+    meta.lights.forEach(function(L){
+      var p = new THREE.PointLight(L.color, 1.1, 14, 2);
+      p.position.set(L.x, L.y + 0.5, L.z);
+      scene.add(p);
+    });
+    // frame the fragment
+    camera.position.set(26, 24, 36);
+    camera.lookAt(-2, 11, -2);
+    renderer.render(scene, camera);
+    window.__shotReady = 1;
+  });
+}, function(p){ window.__loadProg = p.loaded; }, function(e){ window.__loadErr = 'LOAD: ' + (e && e.message || e); });
+</script></body></html>

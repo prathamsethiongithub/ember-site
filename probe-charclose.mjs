@@ -10,7 +10,7 @@ let id=0;const pend=new Map();
 ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);}};
 const send=(m,p={})=>{const i=++id;ws.send(JSON.stringify({id:i,method:m,params:p}));return new Promise(r=>pend.set(i,r));};
 await send("Runtime.enable");await send("Page.enable");
-await send("Page.navigate",{url:"file:///C:/Users/fortn/ember-site/index.html"});
+await send("Page.navigate",{url:"http://127.0.0.1:4173/index.html"});
 await sleep(5000);
 // straight-on close-up of him (world 2.6, feet 2.5, 4.4*2.4/2.2=4.8 tall → center ~4.9)
 await send("Runtime.evaluate",{expression:`window.__emberIsland.freeze(); window.__emberIsland.setIntro(1); window.__emberIsland.viewAt(5.4, 5.2, 11.8, 5.4, 4.7, 5.2);`});

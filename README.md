@@ -66,7 +66,32 @@ regions (head/body/arms/legs × 6 faces each), **including the overlay layer**
   build the fallback image and to verify UV mapping on a plain background
 - to re-skin: replace `assets/skin-data.js` (or pass `textureUrl` to the builder)
 
-## the hero scene (v3, "the chunk")
+## the hero scene (v4 — THE REAL WORLD)
+
+The hero renders **actual Minecraft-generated content**, not an imitation:
+
+```
+the Hive world's real .mca region files  (PrismLauncher save "Hive Final")
+    → scripts/export-world.py   (Anvil/NBT parser: real block-state palettes)
+    → scripts/build-glb.py      (curated window → atlas → face-culled meshes)
+    → assets/hive.glb           (glTF binary, embedded atlas, 15k tris)
+    → three.js + GLTFLoader     (cinematic presentation only)
+```
+
+- textures are **extracted from the actual client jar** (`1.21.11.jar`,
+  `assets/minecraft/textures/block/*.png`) — nothing hand-drawn
+- the fragment is ~32x32 blocks of the real world around a forest + shore,
+  cut as a slab with readable strata and a flat extracted underside
+- warm point lights come from the world's own lit blocks (exported in
+  `hive-meta.json`); everything else is Ember's cinematic key/rim/underglow
+- the character stands on a grass top exported as the `stage` point
+- **file:// note:** browsers block XHR of the .glb from `file://`, so the
+  hero shows the fallback render there; over http (GitHub Pages) the full
+  3D world loads. Everything else still works offline.
+
+Regenerate: `python scripts/build-glb.py <X0> <X1> <Z0> <Z1> <Y0> <Y1> hive`
+
+## the previous hero scene (v3, "the chunk" — procedural, retired)
 
 `chunk.js` + `scene.js` render ONE 16x16 Minecraft chunk, extracted and
 suspended in the void:
