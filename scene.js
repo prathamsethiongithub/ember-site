@@ -56,7 +56,7 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.016);
 
     camera = new THREE.PerspectiveCamera(42, host.clientWidth / host.clientHeight, 0.1, 140);
-    camera.position.set(0.8, 5.4, mobile ? 28.0 : 26.0);
+    camera.position.set(1.0, 8.0, mobile ? 36.0 : 32.0);
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
     keyLight = new THREE.DirectionalLight(0xffb259, 1.6);
@@ -303,12 +303,12 @@
       var bx, by, bz, lookY = 1.8;
       if (p < 0.5) {
         var a = easeInOut(p / 0.5);
-        bx = 0.8 - 0.3 * a; by = 5.4 - 1.9 * a; bz = (mobile ? 28.0 : 26.0) - (mobile ? 6.0 : 6.2) * a;
-        lookY = 1.6 - 0.3 * a;
+        bx = 1.0 - 0.4 * a; by = 8.0 - 2.8 * a; bz = (mobile ? 36.0 : 32.0) - (mobile ? 7.5 : 8.0) * a;
+        lookY = 2.4 - 0.5 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
-        bx = 0.5 + 2.8 * b2; by = 3.5 + 4.2 * b2; bz = (mobile ? 22.0 : 19.8) + 3.4 * b2;
-        lookY = 1.3 - 1.7 * b2;
+        bx = 0.6 + 3.0 * b2; by = 5.2 + 4.6 * b2; bz = (mobile ? 28.5 : 24.0) + 4.2 * b2;
+        lookY = 1.9 - 2.2 * b2;
       }
       if (!reduce) {
         /* slow pan around the chunk + a whisper of vertical breathing */
