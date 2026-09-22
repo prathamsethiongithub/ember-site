@@ -105,6 +105,29 @@ zero accounts, zero cost, zero CI config, and the repo we're already reading (an
 - `favicon.svg` — the whole brand in 16px: one ember dot on `#070608`
 - `evidence.json` — the deploy receipt (auditable)
 
+## phase 6 notes (the spectacle — the 3D character)
+
+S1 replaced: the coal-ignition text is gone; a real WebGL scene stands there now.
+
+- **the rig**: 42 cubes, Minecraft proportions, generated in code (no model files). torso 12 · arms 6 · legs 6 · head 8 · hat 6 (face open) · eyes 2.
+- **formation**: scroll-scrubbed — torso (0.10–0.45) → limbs (0.30–0.70) → head (0.60–0.95). deterministic scatter (seeded). cubes fly with a **near-black albedo + saturated ember emission** that quench into their real colors as they lock — fire settling into flesh. (ACES desaturates saturated emissives; dark albedo is what makes an ember read as an ember. measured at 50%: 19,753 orange pixels = 43% of the lit frame.)
+- **idle**: breathing (torso ±1.5%, 3s) + head cursor-tracking (damped, ±15° yaw / ±10° pitch) — the PlayerDirector moment, web edition.
+- **lighting**: amber point key with real distance falloff (r128 quirk: `distance:0` disables attenuation — it was acting as a 16× directional until fixed) + cool fill + rim + a warm additive ground pool. measured vertical luminance gradient: 318 → 408 (chest) → 246 (feet).
+- **camera**: scroll-synced dolly (z 8.6 → 3.7). portrait framing widens fov.
+- **fallback**: `assets/character-fallback.png` rendered at build time by `scene-build.mjs` (frozen scene, page-coordinate clip). no WebGL / no JS → the image shows; the page never breaks.
+- **reduced motion** → one static fully-formed frame, no tracking, no RAF.
+- **subordinate depth**: S2 eyebrow/numbers drift at ~0.9× scroll; S4 carries 4 dim ember-cubes (<15% opacity) — the fire follows you down.
+
+### amber budget (updated by phase 6, legal at 4)
+
+1. download button · 2. **S1 scene** (ember cubes + key light + ground pool — one location) · 3. S3 number · 4. "still burning."
+
+### the cut list (performance receipt)
+
+full-page scroll sweep with the live scene: **p95 16.8ms, max 16.8ms, 0 of 149 frames over 20ms** (software rendering, worst case). nothing had to be cut. held in reserve, unused: mobile cube-count reduction, spark-loop gating (already in place from phase 4).
+
+**known gap (honest):** no bloom — the vendored r128 UMD build has no EffectComposer; emissive glow reads as color, not halo. a future phase could vendor the postprocessing addons.
+
 ## design laws (inherited from the launcher's EMBER system)
 
 - one accent (`#C88735`) — used in exactly 4 locations (see below); never decorative

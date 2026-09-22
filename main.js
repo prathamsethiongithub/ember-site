@@ -88,6 +88,14 @@
     });
   });
 
+  /* ---------- S2 · parallax depth (modest, subordinate) ----------
+     the number/eyebrow layer drifts at ~0.9x while the content holds 1x.
+     barely perceptible — depth, not decoration. */
+  gsap.to(".launcher .eyebrow, .launcher .beat-num", {
+    y: -18,
+    scrollTrigger: { trigger: "#s2", start: "top bottom", end: "bottom top", scrub: true }
+  });
+
   /* ---------- S3–S6 · quiet reveals ----------
      one reveal primitive for the rest of the descent. */
   gsap.utils.toArray(".reveal").forEach(function (el) {

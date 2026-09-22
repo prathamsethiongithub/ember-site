@@ -39,19 +39,15 @@
       <p class="hero-hint" aria-hidden="true">come closer.</p>
     </section>
 
-    <!-- S1 · the materialize · rhythm: anticipation · coal ignition -->
+    <!-- S1 · the materialize · rhythm: anticipation · THE SCENE -->
     <section id="s1" class="section materialize" data-rhythm="anticipation">
       <div class="materialize-frame">
-        <!-- coal ignition (phase 2 rework): HTML type glows through blur into
-             crisp warm light as the section pins. the word is decorative —
-             the hero h1 already names the product. -->
-        <div class="ignition" aria-hidden="true">
-          <span class="ignition-bloom"></span>
-          <p class="ignition-word">
-            <span class="ignition-glow">ember</span>
-            <span class="ignition-crisp">ember</span>
-          </p>
-        </div>
+        <!-- the spectacle (phase 6): a blocky character assembles from ember-cubes
+             as the section pins; he breathes and tracks the cursor once formed.
+             no WebGL => the build-rendered fallback image shows. -->
+        <div class="scene" aria-hidden="true"></div>
+        <img class="scene-fallback" src="assets/character-fallback.png" alt="" aria-hidden="true" />
+        <p class="scene-caption">not another launcher.</p>
       </div>
     </section>
 
@@ -106,6 +102,11 @@ verdict: named with certainty</code></pre>
 
     <!-- S4 · the smp · rhythm: invitation -->
     <section id="s4" class="section smp" data-rhythm="invitation">
+      <!-- the fire follows you down: 4 dim ember-cubes, <15% opacity -->
+      <span class="ember-float" aria-hidden="true" style="left:12%;top:18%"></span>
+      <span class="ember-float" aria-hidden="true" style="left:78%;top:30%;animation-delay:-4s"></span>
+      <span class="ember-float" aria-hidden="true" style="left:64%;top:70%;animation-delay:-8s"></span>
+      <span class="ember-float" aria-hidden="true" style="left:22%;top:82%;animation-delay:-12s"></span>
       <p class="eyebrow">the smp</p>
       <p class="smp-line reveal">a world built around the same philosophy.</p>
       <div class="smp-card reveal">
@@ -143,6 +144,7 @@ verdict: named with certainty</code></pre>
   <!-- vendored — no cdn dependency, runs offline -->
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/three.min.js"></script>
   <script src="main.js"></script>
   <script src="materialize.js"></script>
 </body>
