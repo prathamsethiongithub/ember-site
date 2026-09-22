@@ -72,7 +72,7 @@
         if (Math.abs(sx) + Math.abs(sz) < 1.1) pushBlock(cx + sx, cy - 2, cz + sz, "stone", 0.94 + rand() * 0.1);
       }
     pushBlock(cx, cy + 1, cz, "emberCrystal", 1.0);
-    var chunkLight = new THREE.PointLight(0xffa04a, 0.8, 10, 2);
+    var chunkLight = new THREE.PointLight(0xffa04a, 0.5, 10, 2);
     chunkLight.position.set(cx + 1, cy + 3, cz + 1);
     EXTRA_LIGHTS.push(chunkLight);
   })();
@@ -100,7 +100,7 @@
   try {
     renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power", preserveDrawingBuffer: true });
     if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
-    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15; }
+    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.88; }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(host.clientWidth, host.clientHeight);
     renderer.setClearColor(0x000000, 0);
@@ -114,26 +114,26 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.026);
 
     camera = new THREE.PerspectiveCamera(40, host.clientWidth / host.clientHeight, 0.1, 120);
-    camera.position.set(0, 6.8, mobile ? 15 : 12.5);
+    camera.position.set(0.8, 3.6, mobile ? 12.5 : 11.5);
 
     /* ---- light: warm key with real falloff, cool fill, rim, underglow ---- */
-    var key = new THREE.PointLight(0xffb259, 3.2, 30, 2);
+    var key = new THREE.PointLight(0xffb259, 2.3, 30, 2);
     key.position.set(5, 8, 6);
     key.castShadow = true;
     key.shadow.mapSize.width = key.shadow.mapSize.height = 512;
     key.shadow.camera.near = 1; key.shadow.camera.far = 40;
     scene.add(key);
     // a small dedicated warm light on him — the poster needs its subject lit
-    var him = new THREE.PointLight(0xffc07a, 1.1, 8, 2);
-    him.position.set(2.6, 3.2, 2.2);
+    var him = new THREE.PointLight(0xffc07a, 1.2, 10, 2);
+    him.position.set(3.6, 3.8, 4.4);
     scene.add(him);
     var fill = new THREE.DirectionalLight(0x2c3d5c, 0.55);
     fill.position.set(-6, 3, 2);
     scene.add(fill);
-    var rim = new THREE.DirectionalLight(0x9fc2e8, 0.6);
+    var rim = new THREE.DirectionalLight(0x9fc2e8, 1.0);
     rim.position.set(-2, 5, -8);
     scene.add(rim);
-    scene.add(new THREE.AmbientLight(0x2a231c, 0.3));
+    scene.add(new THREE.AmbientLight(0x2a231c, 0.24));
     EXTRA_LIGHTS.forEach(function (l) { scene.add(l); });
 
     /* underglow — the island lights the void beneath it */
@@ -180,8 +180,10 @@
     /* ---- the character: real skin, root offset onto the grass ---- */
     var SC = window.buildSkinCharacter();
     var groups = SC.groups;
-    SC.root.position.set(1.9, 1.02, 0);
-    SC.root.scale.set(1.6, 1.6, 1.6);
+    SC.root.position.set(2.5, 0.52, 4.2);
+    SC.root.scale.set(2.2, 2.2, 2.2);
+    SC.groups.armR.rotation.z = -0.22;  // arms out — the silhouette must READ as a figure
+    SC.groups.armL.rotation.z = 0.22;
     scene.add(SC.root);
 
     /* ---- drifting embers (instanced, looping) ---- */
@@ -245,6 +247,12 @@
       setIntro: function (t) { intro = t; if (reduce) applyFrame(null, t); },
       freeze: function () { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } },
       resume: function () { if (rafId === null && !disposed) { timeOrigin = performance.now(); loop(); } },
+      viewAt: function (x, y, z, tx, ty, tz) {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        camera.position.set(x, y, z);
+        camera.lookAt(tx, ty, tz);
+        renderer.render(scene, camera);
+      },
       debug: function () {
         return {
           progress: progress, intro: intro,
@@ -310,15 +318,15 @@
       var x, y2, z, lookY = 1.1;
       if (p < 0.5) {
         var a = easeOut(p / 0.5);
-        x = 0.6 * a; y2 = 6.8 - 3.4 * a; z = (mobile ? 15 : 12.5) - (mobile ? 5 : 4.5) * a;
-        lookY = -0.4 + 1.4 * a;
+        x = 0.8 * a; y2 = 3.6 - 1.2 * a; z = (mobile ? 12.5 : 11.5) - (mobile ? 3.5 : 3.2) * a;
+        lookY = 1.9 - 0.6 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
         x = 0.6 + 5.2 * b2; y2 = 2.4 + 3.6 * b2; z = (mobile ? 10 : 8) + 4 * b2;
         lookY = 1.1 - 2.0 * b2;
       }
       c.position.set(x + parallaxX, y2 + parallaxY, z);
-      c.lookAt(0.6, lookY, 0);
+      c.lookAt(1.6, lookY, 2.0);
 
       renderer.render(scene, camera);
     }

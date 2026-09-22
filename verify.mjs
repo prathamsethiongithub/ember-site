@@ -5,7 +5,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 const EDGE = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe";
 const URL = "file:///C:/Users/fortn/ember-site/index.html";
 const OUT = "C:/Users/fortn/AppData/Local/Temp";
-const edge = spawn(EDGE, ["--headless=new","--disable-gpu","--use-gl=swiftshader","--remote-debugging-port=9360","--user-data-dir="+OUT+"/edge-v2v","--window-size=1440,900","about:blank"], { stdio: "ignore" });
+const edge = spawn(EDGE, ["--headless=new","--remote-debugging-port=9360","--user-data-dir="+OUT+"/edge-v2v","--window-size=1440,900","about:blank"], { stdio: "ignore" });
 async function t(){for(let i=0;i<40;i++){try{const r=await fetch("http://127.0.0.1:9360/json/list");const l=await r.json();const p=l.find(x=>x.type==="page");if(p)return p.webSocketDebuggerUrl;}catch{}await sleep(400);}throw new Error("no target");}
 const ws=new WebSocket(await t());await new Promise(r=>ws.onopen=r);
 let id=0;const pend=new Map();const errors=[];
