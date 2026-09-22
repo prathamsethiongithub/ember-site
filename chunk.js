@@ -42,10 +42,10 @@
     }
 
     // row 0: grass top, grass top b, grass side, dirt
-    noise(0, 0, [95, 158, 74], 16, { speckle: 14 });
-    noise(1, 0, [86, 148, 66], 16, { speckle: 14 });
+    noise(0, 0, [80, 134, 60], 16, { speckle: 14 });
+    noise(1, 0, [72, 124, 54], 16, { speckle: 14 });
     // grass side: dirt base + ragged green cap
-    noise(2, 0, [122, 90, 58], 12);
+    noise(2, 0, [102, 74, 46], 12);
     for (var i = 0; i < TILE; i++) {
       var cap = 3 + ((rnd() < 0.5) ? 1 : 0);
       for (var j = 0; j < cap; j++) {
@@ -54,19 +54,19 @@
         x.fillRect(2 * TILE + i, j, 1, 1);
       }
     }
-    noise(3, 0, [122, 90, 58], 12);
+    noise(3, 0, [102, 74, 46], 12);
     // row 1: stone, cobble, cobble b (mossy), log side
-    noise(0, 1, [125, 129, 137], 10, { speckle: 10 });
-    noise(1, 1, [110, 113, 119], 12);
-    noise(2, 1, [104, 112, 100], 12);
-    noise(3, 1, [92, 70, 48], 9);
+    noise(0, 1, [110, 114, 122], 10, { speckle: 10 });
+    noise(1, 1, [98, 101, 107], 12);
+    noise(2, 1, [93, 100, 90], 12);
+    noise(3, 1, [82, 62, 42], 9);
     for (var g = 0; g < TILE; g++) {           // log grain
       x.fillStyle = "rgba(56,42,28,0.55)";
       x.fillRect(3 * TILE + g, 0, 1, TILE);
       if (rnd() < 0.5) x.fillRect(3 * TILE + ((rnd() * TILE) | 0), 0, 1, TILE);
     }
     // row 2: log top, leaves, leaves b, water
-    noise(0, 2, [148, 116, 74], 8);
+    noise(0, 2, [132, 104, 66], 8);
     (function () { // rings
       var px = 0, py = 2 * TILE;
       for (var r = 2; r < 9; r += 2) {
@@ -75,11 +75,11 @@
         x.beginPath(); x.arc(px + 8, py + 8, r, 0, Math.PI * 2); x.stroke();
       }
     })();
-    noise(1, 2, [63, 125, 58], 20, { speckle: 22 });
-    noise(2, 2, [56, 113, 52], 20, { speckle: 22 });
+    noise(1, 2, [55, 110, 50], 20, { speckle: 22 });
+    noise(2, 2, [49, 99, 45], 20, { speckle: 22 });
     noise(3, 2, [78, 150, 180], 8, { speckle: 12 });
     // row 3: sand, planks, gravel?, unused
-    noise(0, 3, [216, 202, 155], 10, { speckle: 12 });
+    noise(0, 3, [198, 184, 140], 10, { speckle: 12 });
     noise(1, 3, [138, 106, 68], 9);
     for (var p = 0; p < TILE; p += 5) {        // plank seams
       x.fillStyle = "rgba(80,58,34,0.6)";

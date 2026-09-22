@@ -42,7 +42,7 @@
   try {
     renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power", preserveDrawingBuffer: true });
     if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
-    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.9; }
+    if (THREE.ACESFilmicToneMapping !== undefined) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.82; }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(host.clientWidth, host.clientHeight);
     renderer.setClearColor(0x000000, 0);
@@ -56,10 +56,10 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.016);
 
     camera = new THREE.PerspectiveCamera(42, host.clientWidth / host.clientHeight, 0.1, 140);
-    camera.position.set(0.8, 5.2, mobile ? 22.5 : 21.0);
+    camera.position.set(0.8, 5.6, mobile ? 25.0 : 23.5);
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
-    keyLight = new THREE.PointLight(0xffb259, 2.7, 52, 2);
+    keyLight = new THREE.PointLight(0xffb259, 2.25, 52, 2);
     keyLight.position.set(6, 9, 7);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = keyLight.shadow.mapSize.height = 1024;
@@ -69,13 +69,13 @@
     himLight = new THREE.PointLight(0xffc07a, 0.5, 14, 2);
     himLight.position.set(5.6, 6.6, 8.4);   // frontal + high: lights the FACE and both arms, never a hot spot
     scene.add(himLight);
-    var fill = new THREE.DirectionalLight(0x2c3d5c, 0.5);
+    var fill = new THREE.DirectionalLight(0x2c3d5c, 0.32);
     fill.position.set(-6, 3, 2);
     scene.add(fill);
-    var rim = new THREE.DirectionalLight(0x9fc2e8, 1.2);
+    var rim = new THREE.DirectionalLight(0x9fc2e8, 0.85);
     rim.position.set(-3, 6, -9);
     scene.add(rim);
-    scene.add(new THREE.AmbientLight(0x2a231c, 0.34));
+    scene.add(new THREE.AmbientLight(0x2a231c, 0.2));
 
     /* ---- the chunk: extracted, suspended, on display ---- */
     chunk = window.buildEmberChunk();
@@ -247,12 +247,12 @@
       var bx, by, bz, lookY = 1.8;
       if (p < 0.5) {
         var a = easeInOut(p / 0.5);
-        bx = 0.8 - 0.4 * a; by = 5.2 - 2.3 * a; bz = (mobile ? 22.5 : 21.0) - (mobile ? 5.6 : 6.2) * a;
-        lookY = 0.2 + 0.6 * a;
+        bx = 0.8 - 0.3 * a; by = 5.6 - 2.0 * a; bz = (mobile ? 25.0 : 23.5) - (mobile ? 5.8 : 5.7) * a;
+        lookY = 1.4 - 0.25 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
-        bx = 0.4 + 3.0 * b2; by = 2.9 + 4.4 * b2; bz = (mobile ? 16.9 : 14.8) + 3.6 * b2;
-        lookY = 0.8 - 2.0 * b2;
+        bx = 0.5 + 2.8 * b2; by = 3.6 + 4.0 * b2; bz = (mobile ? 19.2 : 17.8) + 3.0 * b2;
+        lookY = 1.15 - 1.6 * b2;
       }
       if (!reduce) {
         /* slow pan around the chunk + a whisper of vertical breathing */
@@ -265,7 +265,7 @@
         by += Math.sin(t * 0.03) * 0.25;
       }
       cam.position.set(bx + parallaxX, by + parallaxY, bz);
-      cam.lookAt(-1.9, lookY, 0.5);  // composition: chunk right of center, type clear on the left
+      cam.lookAt(-2.2, lookY, 0.5);  // composition: chunk right of center, type clear on the left
 
       renderer.render(scene, camera);
     }

@@ -80,16 +80,18 @@ code { font-family: var(--mono); font-size: 0.85em; color: var(--ember); }
 
 .btn-ember {
   display: inline-block;
-  background: linear-gradient(180deg, #ffb35f, var(--ember) 55%, #f07f1c);
-  color: #241103;
+  background: var(--ember);
+  color: #17100a;
   font-weight: 600;
   font-size: 0.95rem;
-  padding: 0.8em 1.7em;
-  border-radius: 999px;
-  box-shadow: 0 6px 30px var(--ember-glow), inset 0 1px 0 rgba(255,255,255,0.45);
-  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
+  letter-spacing: 0.01em;
+  padding: 0.85em 1.65em;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 190, 110, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transition: background 220ms var(--ease), transform 220ms var(--ease), border-color 220ms var(--ease);
 }
-.btn-ember:hover { transform: translateY(-2px); box-shadow: 0 10px 44px rgba(255,138,44,0.38), inset 0 1px 0 rgba(255,255,255,0.45); }
+.btn-ember:hover { background: #d69a45; border-color: rgba(255, 205, 140, 0.5); transform: translateY(-1px); }
 .btn-sm { font-size: 0.85rem; padding: 0.55em 1.25em; }
 
 .btn-ghost {
