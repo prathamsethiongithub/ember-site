@@ -27,9 +27,9 @@
 html { scroll-behavior: smooth; color-scheme: dark; }
 
 /* the launcher's own cursor set */
-body { cursor: url("assets/brand/main.svg") 7 4, auto; }
-a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/hand cursor.svg") 14 6, pointer; }
-input, textarea, code, pre { cursor: url("assets/brand/type.svg") 14 18, text; }
+body { cursor: url("assets/brand/main.svg") 9 5, auto; }
+a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/hand cursor.svg") 19 8, pointer; }
+input, textarea, code, pre { cursor: url("assets/brand/type.svg") 19 24, text; }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--ground); }
 ::-webkit-scrollbar-thumb { background: #2a2620; border-radius: 5px; }
