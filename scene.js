@@ -106,8 +106,8 @@
     groups = SC.groups;
     SC.root.position.set(5.4, 2.52, 5.2);
     SC.root.scale.set(2.4, 2.4, 2.4);
-    SC.groups.armR.rotation.z = -0.22;
-    SC.groups.armL.rotation.z = 0.22;
+    SC.groups.armR.rotation.z = -0.22;   // armR is at -x now → -z swings it OUT
+    SC.groups.armL.rotation.z = 0.22;    // armL is at +x → +z swings it OUT
     scene.add(SC.root);
 
     /* ---- sparse embers, drifting past the chunk ---- */

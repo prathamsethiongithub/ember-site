@@ -106,7 +106,9 @@
     groups.head.add(headHat);
 
     ["armR", "armL"].forEach(function (k) {
-      var side = k === "armR" ? 1 : -1;
+      // HANDEDNESS: he faces +z; his RIGHT hand is at -x (viewer-left) —
+      // matching the launcher's own render. +1 here mirrored the whole rig.
+      var side = k === "armR" ? -1 : 1;
       // PIVOT AT THE SHOULDER (top of the arm) — rotating the group then swings
       // the arm naturally instead of detaching it (the rotate-around-center bug)
       groups[k].position.set(side * 0.375, 1.5, 0);
@@ -119,7 +121,7 @@
     });
 
     ["legR", "legL"].forEach(function (k) {
-      var side = k === "legR" ? 1 : -1;
+      var side = k === "legR" ? -1 : 1;   // same handedness fix as the arms
       groups[k].position.set(side * 0.125, 0.375, 0);
       groups[k].add(faceBox(RECTS[k], DIMS[k], skinMat, 1));
       groups[k].add(faceBox(RECTS[k + "Pant"], DIMS[k], overMat, 1.08));
