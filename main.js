@@ -25,11 +25,21 @@
     .to(".topbar", { opacity: 0.15 }, 0)
     .to(".hero-hint", { opacity: 0 }, 0);
 
-  /* every section rises in */
-  gsap.utils.toArray(".section .eyebrow, .section .h2, .section .lede, .section .terminal, .section .character-stage, .section .shot-main, .section .shot-row, .section .cards, .section .stats, .section .smp-card, .footer-in, .footer-credit").forEach(function (el) {
+  /* every section rises in — scrubbed to its own scroll progress */
+  gsap.utils.toArray(".section .eyebrow, .section .h2, .section .lede, .section .terminal, .section .character-stage, .section .shot-main, .section .shot-row, .section .cards, .section .stats, .section .smp-card").forEach(function (el) {
     gsap.fromTo(el,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, scrollTrigger: { trigger: el, start: "top 88%", end: "top 58%", scrub: true } });
+  });
+
+  /* the page-bottom elements (footer) can NEVER reach the scrubbed end
+     threshold — their top only rises to ~78% of the viewport at max scroll,
+     so a scrub leaves them frozen at partial opacity. these PLAY ONCE. */
+  gsap.utils.toArray(".footer-in, .footer-credit").forEach(function (el) {
+    gsap.fromTo(el,
+      { y: 24, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 98%", once: true } });
   });
 
   if (document.fonts && document.fonts.ready) {
