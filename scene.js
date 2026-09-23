@@ -56,7 +56,14 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.016);
 
     camera = new THREE.PerspectiveCamera(42, host.clientWidth / host.clientHeight, 0.1, 140);
-    camera.position.set(4.0, 20.5, mobile ? 28.5 : 25.5);
+    /* distance scales with aspect: narrow windows see less width at the same
+       distance, so pull back as aspect drops — the fragment must stay whole */
+    function camDist() {
+      var a = host.clientWidth / Math.max(1, host.clientHeight);
+      if (mobile) return 28.5 + Math.max(0, (1.1 - a)) * 14;
+      return 25.5 + Math.max(0, (1.35 - a)) * 12;
+    }
+    camera.position.set(4.0, 20.5, camDist());
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
     keyLight = new THREE.DirectionalLight(0xffb259, 1.6);
@@ -341,6 +348,7 @@
       renderer.setSize(host.clientWidth, host.clientHeight);
       camera.aspect = host.clientWidth / host.clientHeight;
       camera.fov = host.clientWidth / host.clientHeight < 1 ? 52 : 42;
+      camera.position.z = camDist();
       camera.updateProjectionMatrix();
       if (reduce) applyFrame(null, 1);
     });
