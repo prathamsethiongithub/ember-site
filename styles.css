@@ -27,7 +27,7 @@
 html { scroll-behavior: smooth; color-scheme: dark; }
 
 /* the launcher's own cursor set */
-body { cursor: url("assets/brand/main.svg") 9 5, auto; }
+body { cursor: url("assets/brand/cursor-new.png") 2 2, auto; }   /* the ember arrow */
 a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/hand cursor.svg") 19 8, pointer; }
 input, textarea, code, pre { cursor: url("assets/brand/type.svg") 19 24, text; }
 ::-webkit-scrollbar { width: 10px; }

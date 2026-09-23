@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#000}</style></head>
+<body>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script>
+/* ember — hero wallpaper renderer
+   renders the REAL cherry-grove fragment (hive.glb) + the character against an
+   ember-dusk sky, at 2880x1620, and hands the PNG back through __shotData. */
+(function () {
+  var W = 2880, H = 1620;
+  var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setSize(W, H);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x000000);
+  document.body.appendChild(renderer.domElement);
+  renderer.domElement.style.width = "720px";
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(36, W / H, 0.1, 400);
+
+  /* ---- the sky: ember dusk ---- */
+  (function () {
+    var c = document.createElement("canvas"); c.width = 64; c.height = 512;
+    var x = c.getContext("2d");
+    var g = x.createLinearGradient(0, 0, 0, 512);
+    g.addColorStop(0.0, "#070503");
+    g.addColorStop(0.45, "#120a06");
+    g.addColorStop(0.68, "#2a1207");
+    g.addColorStop(0.80, "#59230d");
+    g.addColorStop(0.88, "#8a3a16");
+    g.addColorStop(0.94, "#3a1a0c");
+    g.addColorStop(1.0, "#0b0503");
+    x.fillStyle = g; x.fillRect(0, 0, 64, 512);
+    var tex = new THREE.CanvasTexture(c);
+    tex.magFilter = THREE.LinearFilter;
+    scene.background = tex;
+  })();
+
+  /* warm sun glow low behind the island */
+  (function () {
+    var c = document.createElement("canvas"); c.width = c.height = 256;
+    var x = c.getContext("2d");
+    var g = x.createRadialGradient(128, 128, 4, 128, 128, 126);
+    g.addColorStop(0, "rgba(255,196,120,0.85)");
+    g.addColorStop(0.35, "rgba(255,140,50,0.35)");
+    g.addColorStop(1, "rgba(255,90,10,0)");
+    x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+    var s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+    s.scale.set(56, 56, 1);
+    s.position.set(4, 2.5, -38);
+    scene.add(s);
+  })();
+
+  /* ---- light: dusk key + ember underglow + soft rim ---- */
+  var key = new THREE.DirectionalLight(0xffb259, 1.7); key.position.set(-16, 14, 22); key.castShadow = true;
+  key.shadow.mapSize.width = key.shadow.mapSize.height = 2048;
+  key.shadow.camera.near = 1; key.shadow.camera.far = 120;
+  key.shadow.camera.left = -40; key.shadow.camera.right = 40;
+  key.shadow.camera.top = 40; key.shadow.camera.bottom = -40;
+  scene.add(key);
+  var under = new THREE.PointLight(0xff7a1a, 3.2, 34, 2); under.position.set(0, -6, 6); scene.add(under);
+  var rim = new THREE.DirectionalLight(0x6a86b8, 0.45); rim.position.set(18, 10, -24); scene.add(rim);
+  scene.add(new THREE.AmbientLight(0x2a231c, 0.5));
+
+  /* ---- the world + him ---- */
+  var stage = { x: -0.6, y: 5.72, z: -0.6 };
+  window.__ready = false;
+  var loader = new THREE.GLTFLoader();
+  loader.load("assets/hive.glb?v=cherry4", function (g) {
+    var root = g.scene;
+    root.scale.set(0.6, 0.6, 0.6);
+    root.position.y = -7.5;
+    root.traverse(function (o) {
+      if (o.isMesh && o.material) {
+        if (o.material.map) { o.material.map.magFilter = THREE.NearestFilter; o.material.map.minFilter = THREE.NearestFilter; o.material.map.generateMipmaps = false; o.material.map.needsUpdate = true; }
+        o.castShadow = o.name !== "blend";
+        o.receiveShadow = true;
+      }
+    });
+    scene.add(root);
+    fetch("assets/hive-meta.json?v=cherry4").then(function (r) { return r.json(); }).then(function (meta) {
+      var st = meta.stage || stage;
+      stage = { x: st.x * 0.6, y: st.y * 0.6 - 7.5, z: st.z * 0.6 };
+      var SC = window.buildSkinCharacter();
+      SC.root.position.set(stage.x, stage.y + 0.02, stage.z);
+      SC.root.scale.set(2.4, 2.4, 2.4);
+      SC.groups.armR.rotation.z = -0.22;
+      SC.groups.armL.rotation.z = 0.22;
+      SC.root.traverse(function (o) { if (o.isMesh) { o.castShadow = true; } });
+      scene.add(SC.root);
+      SC.ready.then(function () {
+        // frame: the fragment low-left of center, character readable, sky above
+        camera.position.set(6.5, 8.5, 22.5);
+        camera.lookAt(0.5, 4.2, 0.5);
+        // a few baked embers
+        var emberMat = new THREE.MeshBasicMaterial({ color: 0xff8a2a }); emberMat.fog = false; emberMat.toneMapped = false;
+        for (var i = 0; i < 26; i++) {
+          var s = 0.12 + Math.random() * 0.22;
+          var m = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), emberMat);
+          m.position.set((Math.random() - 0.5) * 44, (Math.random() - 0.3) * 20, (Math.random() - 0.5) * 34);
+          scene.add(m);
+        }
+        renderer.render(scene, camera);
+        window.__ready = true;
+      });
+    });
+  }, undefined, function (e) { window.__err = String(e && e.message || e); });
+})();
+</script>
+<script src="assets/skin-data.js"></script>
+<script src="skinchar.js"></script>
+</body></html>
