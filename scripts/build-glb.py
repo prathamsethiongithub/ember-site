@@ -267,7 +267,14 @@ def main():
     for (bx, by, bz), (name, props) in blocks.items():
         if name.replace("minecraft:", "") != "grass_block": continue
         if any((bx, by + h, bz) in blocks for h in (1, 2, 3)): continue
-        d = (bx - midx) ** 2 + (bz - midz) ** 2
+        # prefer CLEAN grass: penalty for petals/plants on the four neighbours
+        clutter = 0
+        for nx in (-1, 0, 1):
+            for nz in (-1, 0, 1):
+                nb = blocks.get((bx + nx, by + 1, bz + nz))
+                if nb and ("petals" in nb[0] or "grass" in nb[0].replace("grass_block", "")):
+                    clutter += 1
+        d = (bx - midx) ** 2 + (bz - midz) ** 2 + clutter * 40
         if best is None or d < best[0]:
             best = (d, bx, by, bz)
     if best:
@@ -309,8 +316,22 @@ def main():
     if len(lights) > 40:
         step = len(lights) // 40 + 1
         lights = lights[::step]
+    # stage beside the tree: the cherry log nearest the front-right, he stands 2 blocks toward the camera
+    tbest = None
+    for (bx, by, bz), (name, props) in blocks.items():
+        if name.replace("minecraft:", "") != "cherry_log": continue
+        score = (bz - Z1) ** 2 + (bx - (X0 + 0.7 * (X1 - X0))) ** 2
+        if tbest is None or score < tbest[0]:
+            tbest = (score, bx, by, bz)
+    stage_tree = None
+    if tbest:
+        sx, sy, sz = tbest[1], tbest[2], tbest[3]
+        # stand two blocks toward +z (camera side) at the log's base height
+        stage_tree = {"x": sx + 2 - cxm, "y": sy, "z": sz + 2 - czm}
+
     meta = {
         "stage": stage,
+        "stageTree": stage_tree,
         "stageFront": stage_front,
         "stageHero": stage_hero,
         "bounds": {"x": X1 - X0 + 1, "z": Z1 - Z0 + 1, "y0": Y0, "y1": Y1},

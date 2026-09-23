@@ -56,7 +56,7 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.016);
 
     camera = new THREE.PerspectiveCamera(42, host.clientWidth / host.clientHeight, 0.1, 140);
-    camera.position.set(4.0, 19.0, mobile ? 27.0 : 24.0);
+    camera.position.set(4.0, 20.5, mobile ? 28.5 : 25.5);
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
     keyLight = new THREE.DirectionalLight(0xffb259, 1.6);
@@ -93,7 +93,7 @@
          (the same real world, pre-rendered) instead of a failed request */
       if (host) host.style.display = "none";
     } else (function loadWorld() {
-      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry3", function (g) {
+      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry4", function (g) {
         var root = g.scene;
         root.scale.set(0.6, 0.6, 0.6);
         root.position.y = -7.5;                    // center the slab on y=0
@@ -112,7 +112,7 @@
         });
         scene.add(root);
         worldRoot = root;
-        fetch("assets/hive-meta.json?v=cherry3").then(function (r) { return r.json(); }).then(function (meta) {
+        fetch("assets/hive-meta.json?v=cherry4").then(function (r) { return r.json(); }).then(function (meta) {
           (meta.lights || []).forEach(function (L) {
             var p = new THREE.PointLight(L.color, 0.85, 11, 2);
             p.position.set(L.x * 0.6, L.y * 0.6 - 7.5 + 0.5, L.z * 0.6);
@@ -304,7 +304,7 @@
       if (p < 0.5) {
         var a = easeInOut(p / 0.5);
         bx = 4.0 - 1.0 * a; by = 19.0 - 5.5 * a; bz = (mobile ? 27.0 : 24.0) - (mobile ? 6.0 : 6.5) * a;
-        lookY = 1.4 + 0.1 * a;
+        lookY = 1.7 + 0.1 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
         bx = 3.0 + 2.8 * b2; by = 13.5 + 4.8 * b2; bz = (mobile ? 21.0 : 17.5) + 5.4 * b2;
