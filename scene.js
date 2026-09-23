@@ -93,7 +93,7 @@
          (the same real world, pre-rendered) instead of a failed request */
       if (host) host.style.display = "none";
     } else (function loadWorld() {
-      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry1", function (g) {
+      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry2", function (g) {
         var root = g.scene;
         root.scale.set(0.6, 0.6, 0.6);
         root.position.y = -7.5;                    // center the slab on y=0
@@ -102,9 +102,8 @@
             worldMats.push(o.material);
             if (o.material.map) {
               o.material.map.magFilter = THREE.NearestFilter;
-              o.material.map.minFilter = THREE.NearestMipmapLinearFilter;  // kills grazing-angle shimmer, keeps the pixel look
-              o.material.map.generateMipmaps = true;
-              o.material.map.anisotropy = 4;
+              o.material.map.minFilter = THREE.NearestFilter;   // NO mips: an atlas + mipmaps bleeds tiles together (pale wash)
+              o.material.map.generateMipmaps = false;
               o.material.map.needsUpdate = true;
             }
             o.castShadow = o.name !== "blend";
@@ -113,7 +112,7 @@
         });
         scene.add(root);
         worldRoot = root;
-        fetch("assets/hive-meta.json?v=cherry1").then(function (r) { return r.json(); }).then(function (meta) {
+        fetch("assets/hive-meta.json?v=cherry2").then(function (r) { return r.json(); }).then(function (meta) {
           (meta.lights || []).forEach(function (L) {
             var p = new THREE.PointLight(L.color, 0.85, 11, 2);
             p.position.set(L.x * 0.6, L.y * 0.6 - 7.5 + 0.5, L.z * 0.6);
@@ -121,7 +120,7 @@
           });
           if (meta.stage) {
             stagePoint.set(meta.stage.x * 0.6, meta.stage.y * 0.6 - 7.5, meta.stage.z * 0.6);
-            SC.root.position.set(4.5, stagePoint.y + 0.02, 8.6);   // front-right: the subject, not a speck
+            SC.root.position.set(stagePoint.x, stagePoint.y + 0.02, stagePoint.z);  // exactly on the exported stage block
             window.__charDebug = SC.root.position.toArray().concat([SC.root.visible]);
           }
         });

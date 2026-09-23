@@ -94,6 +94,15 @@ def main():
             tile_of(t)
     if "water_still" in tex: tile_of("water_still")
 
+    # biome tints: modern MC grass/leaf textures are GRAYSCALE, tinted at runtime.
+    # tint only the desaturated pixels (the overlay), leave saturated dirt alone.
+    TINTS = {
+        "grass_block_top": (0x91, 0xBD, 0x59), "grass_block_side": (0x91, 0xBD, 0x59),
+        "oak_leaves": (0x59, 0xAE, 0x30), "jungle_leaves": (0x59, 0xAE, 0x30),
+        "acacia_leaves": (0x6A, 0x70, 0x39), "dark_oak_leaves": (0x59, 0xAE, 0x30),
+        "birch_leaves": (0x80, 0xA7, 0x55), "spruce_leaves": (0x61, 0x99, 0x61),
+        "mangrove_leaves": (0x8D, 0xB1, 0x27),
+    }
     TILE, COLS = 16, 8
     rows = math.ceil(len(used) / COLS)
     AW, AH = COLS * TILE, rows * TILE
@@ -101,11 +110,19 @@ def main():
     for i, tname in enumerate(used):
         w, h, px = ew.png_rgba(tex[tname])
         cx, cy = i % COLS, i // COLS
+        tint = TINTS.get(tname)
         for y in range(min(16, h)):
             for x in range(min(16, w)):
                 si = (y * w + x) * 4
                 di = ((cy * TILE + y) * AW + cx * TILE + x) * 4
-                atlas[di:di + 4] = px[si:si + 4]
+                r, g, b2, a = px[si], px[si + 1], px[si + 2], px[si + 3]
+                if tint and a > 0:
+                    mx, mn = max(r, g, b2), min(r, g, b2)
+                    if mx - mn < 24:      # desaturated = tintable overlay/grayscale pixel
+                        r = (r * tint[0]) // 255
+                        g = (g * tint[1]) // 255
+                        b2 = (b2 * tint[2]) // 255
+                atlas[di] = r; atlas[di + 1] = g; atlas[di + 2] = b2; atlas[di + 3] = a
     atlas_png = ew.png_write(os.path.join(ew.SITE, "assets", NAME + "-atlas.png"), AW, AH, bytes(atlas))
     print("atlas:", len(used), "tiles,", AW, "x", AH)
 
