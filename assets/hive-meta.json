@@ -7,7 +7,7 @@
  "bounds": {
   "x": 32,
   "z": 32,
-  "y0": 8,
+  "y0": 4,
   "y1": 28
  },
  "center": {
@@ -16,9 +16,9 @@
  },
  "lights": [],
  "counts": {
-  "opaque": 11176,
+  "opaque": 12592,
   "cutout": 3124,
   "glow": 0,
-  "blend": 926
+  "blend": 914
  }
 }

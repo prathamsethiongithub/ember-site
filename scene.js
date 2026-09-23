@@ -56,7 +56,7 @@
     scene.fog = new THREE.FogExp2(0x08070a, 0.016);
 
     camera = new THREE.PerspectiveCamera(42, host.clientWidth / host.clientHeight, 0.1, 140);
-    camera.position.set(1.0, 8.0, mobile ? 36.0 : 32.0);
+    camera.position.set(4.0, 19.0, mobile ? 27.0 : 24.0);
 
     /* ---- light: one warm key, a cool fill, a rim, ambient; the key sways ---- */
     keyLight = new THREE.DirectionalLight(0xffb259, 1.6);
@@ -155,7 +155,7 @@
     var SC = window.buildSkinCharacter();
     groups = SC.groups;
     SC.root.position.set(5.4, 2.52, 5.2);
-    SC.root.scale.set(3.4, 3.4, 3.4);
+    SC.root.scale.set(2.2, 2.2, 2.2);
     SC.groups.armR.rotation.z = -0.22;   // armR is at -x now → -z swings it OUT
     SC.groups.armL.rotation.z = 0.22;    // armL is at +x → +z swings it OUT
     scene.add(SC.root);
@@ -303,12 +303,12 @@
       var bx, by, bz, lookY = 1.8;
       if (p < 0.5) {
         var a = easeInOut(p / 0.5);
-        bx = 1.0 - 0.4 * a; by = 8.0 - 2.8 * a; bz = (mobile ? 36.0 : 32.0) - (mobile ? 7.5 : 8.0) * a;
-        lookY = 2.4 - 0.5 * a;
+        bx = 4.0 - 1.2 * a; by = 19.0 - 4.6 * a; bz = (mobile ? 27.0 : 24.0) - (mobile ? 6.0 : 6.4) * a;
+        lookY = 1.6 - 0.1 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
-        bx = 0.6 + 3.0 * b2; by = 5.2 + 4.6 * b2; bz = (mobile ? 28.5 : 24.0) + 4.2 * b2;
-        lookY = 1.9 - 2.2 * b2;
+        bx = 2.8 + 2.6 * b2; by = 14.4 + 4.0 * b2; bz = (mobile ? 21.0 : 17.6) + 4.6 * b2;
+        lookY = 1.5 - 2.0 * b2;
       }
       if (!reduce) {
         /* slow pan around the chunk + a whisper of vertical breathing */
@@ -321,7 +321,7 @@
         by += Math.sin(t * 0.03) * 0.25;
       }
       cam.position.set(bx + parallaxX, by + parallaxY, bz);
-      cam.lookAt(-2.2, lookY, 0.5);  // composition: chunk right of center, type clear on the left
+      cam.lookAt(-1.4, lookY, 0.8);  // composition: chunk right of center, type clear on the left
 
       renderer.render(scene, camera);
     }
