@@ -27,9 +27,9 @@
 html { scroll-behavior: smooth; color-scheme: dark; }
 
 /* the launcher's own cursor set */
-body { cursor: url("assets/brand/cursor-new.png") 1 1, auto; }   /* the ember arrow — 24px cap */
-a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/hand cursor.svg") 5 2, pointer; }
-input, textarea, code, pre { cursor: url("assets/brand/type.svg") 5 6, text; }
+body { cursor: url("assets/brand/cursor-arrow.png") 1 1, auto; }   /* the ember set — arrow */
+a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/cursor-hand.png") 6 1, pointer; }
+input, textarea, code, pre { cursor: url("assets/brand/cursor-ibeam.png") 5 12, text; }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--ground); }
 ::-webkit-scrollbar-thumb { background: #2a2620; border-radius: 5px; }
