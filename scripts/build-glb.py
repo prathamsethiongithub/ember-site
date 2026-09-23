@@ -46,7 +46,7 @@ def main():
     cxa, cxb = X0 // 16, X1 // 16
     cza, czb = Z0 // 16, Z1 // 16
     regions = set((cx // 32, cz // 32) for cx in range(cxa, cxb + 1) for cz in range(cza, czb + 1))
-    ew.WORLD = os.path.join(ew.PRISM, "saves", "Hive Final")
+    ew.WORLD = os.environ.get("EMBER_WORLD", os.path.join(ew.PRISM, "saves", "Hive Final"))
     for rx, rz in sorted(regions):
         for cx, cz, root in ew.region_chunks(rx, rz):
             if not (cxa <= cx <= cxb and cza <= cz <= czb): continue

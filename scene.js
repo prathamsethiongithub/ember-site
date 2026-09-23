@@ -93,7 +93,7 @@
          (the same real world, pre-rendered) instead of a failed request */
       if (host) host.style.display = "none";
     } else (function loadWorld() {
-      new THREE.GLTFLoader().load("assets/hive.glb", function (g) {
+      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry1", function (g) {
         var root = g.scene;
         root.scale.set(0.6, 0.6, 0.6);
         root.position.y = -7.5;                    // center the slab on y=0
@@ -113,7 +113,7 @@
         });
         scene.add(root);
         worldRoot = root;
-        fetch("assets/hive-meta.json").then(function (r) { return r.json(); }).then(function (meta) {
+        fetch("assets/hive-meta.json?v=cherry1").then(function (r) { return r.json(); }).then(function (meta) {
           (meta.lights || []).forEach(function (L) {
             var p = new THREE.PointLight(L.color, 0.85, 11, 2);
             p.position.set(L.x * 0.6, L.y * 0.6 - 7.5 + 0.5, L.z * 0.6);
