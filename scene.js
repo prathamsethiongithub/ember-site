@@ -93,7 +93,7 @@
          (the same real world, pre-rendered) instead of a failed request */
       if (host) host.style.display = "none";
     } else (function loadWorld() {
-      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry2", function (g) {
+      new THREE.GLTFLoader().load("assets/hive.glb?v=cherry3", function (g) {
         var root = g.scene;
         root.scale.set(0.6, 0.6, 0.6);
         root.position.y = -7.5;                    // center the slab on y=0
@@ -112,14 +112,15 @@
         });
         scene.add(root);
         worldRoot = root;
-        fetch("assets/hive-meta.json?v=cherry2").then(function (r) { return r.json(); }).then(function (meta) {
+        fetch("assets/hive-meta.json?v=cherry3").then(function (r) { return r.json(); }).then(function (meta) {
           (meta.lights || []).forEach(function (L) {
             var p = new THREE.PointLight(L.color, 0.85, 11, 2);
             p.position.set(L.x * 0.6, L.y * 0.6 - 7.5 + 0.5, L.z * 0.6);
             scene.add(p); worldLights.push(p);
           });
-          if (meta.stage) {
-            stagePoint.set(meta.stage.x * 0.6, meta.stage.y * 0.6 - 7.5, meta.stage.z * 0.6);
+          var st = meta.stage;   // the center-of-grove grass: the version that read best
+          if (st) {
+            stagePoint.set(st.x * 0.6, st.y * 0.6 - 7.5, st.z * 0.6);
             SC.root.position.set(stagePoint.x, stagePoint.y + 0.02, stagePoint.z);  // exactly on the exported stage block
             window.__charDebug = SC.root.position.toArray().concat([SC.root.visible]);
           }
@@ -154,7 +155,7 @@
     var SC = window.buildSkinCharacter();
     groups = SC.groups;
     SC.root.position.set(5.4, 2.52, 5.2);
-    SC.root.scale.set(2.2, 2.2, 2.2);
+    SC.root.scale.set(2.4, 2.4, 2.4);
     SC.groups.armR.rotation.z = -0.22;   // armR is at -x now → -z swings it OUT
     SC.groups.armL.rotation.z = 0.22;    // armL is at +x → +z swings it OUT
     scene.add(SC.root);
@@ -302,11 +303,11 @@
       var bx, by, bz, lookY = 1.8;
       if (p < 0.5) {
         var a = easeInOut(p / 0.5);
-        bx = 4.0 - 1.2 * a; by = 19.0 - 4.6 * a; bz = (mobile ? 27.0 : 24.0) - (mobile ? 6.0 : 6.4) * a;
-        lookY = 1.6 - 0.1 * a;
+        bx = 4.0 - 1.0 * a; by = 19.0 - 5.5 * a; bz = (mobile ? 27.0 : 24.0) - (mobile ? 6.0 : 6.5) * a;
+        lookY = 1.4 + 0.1 * a;
       } else {
         var b2 = easeOut((p - 0.5) / 0.5);
-        bx = 2.8 + 2.6 * b2; by = 14.4 + 4.0 * b2; bz = (mobile ? 21.0 : 17.6) + 4.6 * b2;
+        bx = 3.0 + 2.8 * b2; by = 13.5 + 4.8 * b2; bz = (mobile ? 21.0 : 17.5) + 5.4 * b2;
         lookY = 1.5 - 2.0 * b2;
       }
       if (!reduce) {
@@ -320,7 +321,7 @@
         by += Math.sin(t * 0.03) * 0.25;
       }
       cam.position.set(bx + parallaxX, by + parallaxY, bz);
-      cam.lookAt(-1.4, lookY, 0.8);  // composition: chunk right of center, type clear on the left
+      cam.lookAt(0.6, lookY, 0.6);  // composition: chunk right of center, type clear on the left
 
       renderer.render(scene, camera);
     }

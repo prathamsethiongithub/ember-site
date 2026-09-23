@@ -258,7 +258,9 @@ def main():
     size = write_glb(glb_path)
     print("glb:", glb_path, round(size / 1024), "KB")
 
-    # ---- stage point: a grass top near the middle, air above it
+    # ---- stage points: (a) the grass nearest the middle, (b) a FRONT one:
+    # low elevation, on the camera-facing half — so the figure reads INSIDE
+    # the scene, not silhouetted on the horizon
     stage = None
     midx = (X0 + X1) / 2.0; midz = (Z0 + Z1) / 2.0
     best = None
@@ -270,6 +272,32 @@ def main():
             best = (d, bx, by, bz)
     if best:
         stage = {"x": best[1] - cxm, "y": best[2] + 1, "z": best[3] - czm}
+    # front stage: grass in the camera-facing 45% of the window, lowest height
+    fbest = None
+    zcut = Z0 + (Z1 - Z0) * 0.55
+    for (bx, by, bz), (name, props) in blocks.items():
+        if name.replace("minecraft:", "") != "grass_block": continue
+        if bz < zcut: continue
+        if any((bx, by + h, bz) in blocks for h in (1, 2, 3)): continue
+        score = by * 1000 + ((bx - midx) ** 2 + (bz - midz) ** 2) * 0.01
+        if fbest is None or score < fbest[0]:
+            fbest = (score, bx, by, bz)
+    stage_front = None
+    if fbest:
+        stage_front = {"x": fbest[1] - cxm, "y": fbest[2] + 1, "z": fbest[3] - czm}
+    # hero stage: front-right quadrant, lowest ground — where the figure reads best
+    hbest = None
+    xcut = X0 + (X1 - X0) * 0.55
+    for (bx, by, bz), (name, props) in blocks.items():
+        if name.replace("minecraft:", "") != "grass_block": continue
+        if bz < zcut or bx < xcut: continue
+        if any((bx, by + h, bz) in blocks for h in (1, 2, 3)): continue
+        score = by * 1000 + ((bx - xcut) ** 2 + (bz - zcut) ** 2) * 0.02
+        if hbest is None or score < hbest[0]:
+            hbest = (score, bx, by, bz)
+    stage_hero = None
+    if hbest:
+        stage_hero = {"x": hbest[1] - cxm, "y": hbest[2] + 1, "z": hbest[3] - czm}
 
     # ---- sidecar: lights + bounds
     lights = []
@@ -283,6 +311,8 @@ def main():
         lights = lights[::step]
     meta = {
         "stage": stage,
+        "stageFront": stage_front,
+        "stageHero": stage_hero,
         "bounds": {"x": X1 - X0 + 1, "z": Z1 - Z0 + 1, "y0": Y0, "y1": Y1},
         "center": {"x": cxm, "z": czm},
         "lights": lights,
