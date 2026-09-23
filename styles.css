@@ -94,6 +94,13 @@ code { font-family: var(--mono); font-size: 0.85em; color: var(--ember); }
 .btn-ember:hover { background: #d69a45; border-color: rgba(255, 205, 140, 0.5); transform: translateY(-1px); }
 .btn-sm { font-size: 0.85rem; padding: 0.55em 1.25em; }
 
+/* the designed download button (pixel DOWNLOAD art) */
+.btn-art { display: inline-block; line-height: 0; }
+.btn-art img { height: 26px; width: auto; display: block; transition: transform 220ms var(--ease), filter 220ms var(--ease); }
+.btn-art:hover img { transform: translateY(-1px); filter: brightness(1.08); }
+.btn-art:active img { transform: translateY(0); filter: brightness(0.95); }
+.btn-art.btn-art-hero img { height: 40px; }
+
 .btn-ghost {
   display: inline-block;
   color: var(--dim);
