@@ -27,7 +27,7 @@
 html { scroll-behavior: smooth; color-scheme: dark; }
 
 /* the launcher's own cursor set */
-body { cursor: url("assets/brand/cursor-arrow.png") 1 1, auto; }   /* the ember set — arrow */
+body { cursor: url("assets/brand/cursor-arrow2.png") 6 2, auto; }   /* the ember glow arrow */
 a, button, .btn-ember, .btn-ghost, [role="button"] { cursor: url("assets/brand/cursor-hand.png") 6 1, pointer; }
 input, textarea, code, pre { cursor: url("assets/brand/cursor-ibeam.png") 5 11, text; }
 ::-webkit-scrollbar { width: 10px; }
@@ -118,9 +118,8 @@ code { font-family: var(--mono); font-size: 0.85em; color: var(--ember); }
   overflow: hidden;
 }
 
-.hero-scene { position: absolute; inset: 0; z-index: 1; }
-.hero-scene canvas { display: block; width: 100%; height: 100%; }
-.hero-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 42%; z-index: 0; will-change: transform; }
+@media (max-width: 760px) { .hero-bg { object-position: 66% 45%; } }
 
 /* vignette so type always reads over the scene */
 .hero::after {
@@ -382,7 +381,7 @@ code { font-family: var(--mono); font-size: 0.85em; color: var(--ember); }
 }
 .footer-in { display: flex; align-items: baseline; gap: 1.1rem; flex-wrap: wrap; }
 .footer-burn { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--ember); line-height: 1; }
-.footer-lockup-a { display: inline-block; line-height: 0; }
+.footer-lockup-a { display: inline-block; line-height: 0; cursor: url("assets/brand/cursor-hand.png") 6 1, pointer; }
 .footer-lockup { height: 60px; width: auto; display: block; filter: drop-shadow(0 0 14px rgba(255, 140, 40, 0.18)); }
 .footer-links { margin-left: auto; display: flex; gap: 1.6rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
 .footer-links a { color: var(--dim); transition: color 250ms var(--ease); }

@@ -21,6 +21,7 @@
   gsap.timeline({
     scrollTrigger: { trigger: "#hero", start: "top top", end: "60% top", scrub: true },
   })
+    .to(".hero-bg", { scale: 1.07 }, 0)
     .to(".hero-copy", { yPercent: -14, opacity: 0 }, 0)
     .to(".topbar", { opacity: 0.15 }, 0)
     .to(".hero-hint", { opacity: 0 }, 0);
